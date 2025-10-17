@@ -23,8 +23,11 @@ export default function About() {
           transition={{ duration: 0.6 }}
           className="space-y-4 text-lg leading-relaxed text-slate-300"
         >
-          {aboutNarrative.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
+          {aboutNarrative.map((paragraph, index) => (
+            <p
+              key={index}
+              dangerouslySetInnerHTML={{ __html: paragraph }}
+            />
           ))}
 
           <div className="grid gap-3 rounded-2xl border border-white/10 bg-[#0c162f]/80 p-5 text-sm text-slate-300 md:grid-cols-4 md:text-center">
@@ -42,8 +45,21 @@ export default function About() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="space-y-5 rounded-2xl border border-white/10 bg-white/5 p-6 text-slate-200 shadow-[0_22px_70px_rgba(8,15,35,0.3)] backdrop-blur"
+          className="space-y-6 rounded-2xl border border-white/10 bg-white/5 p-6 text-slate-200 shadow-[0_22px_70px_rgba(8,15,35,0.3)] backdrop-blur"
         >
+          <figure className="overflow-hidden rounded-2xl border border-white/10 bg-[#050b18]/60 shadow-[0_18px_55px_rgba(5,11,24,0.55)]">
+            <img
+              src="/foto-perfil.jpg"
+              alt="Erick Filipe sorrindo, com fundo escuro"
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover"
+            />
+            <figcaption className="px-4 py-3 text-center text-[11px] uppercase tracking-[0.3em] text-slate-400">
+              Data-driven Ops · Belo Horizonte/MG
+            </figcaption>
+          </figure>
+
           <h3 className="text-xl font-semibold text-white">{positioning.headline}</h3>
           <div className="space-y-4 text-sm leading-relaxed text-slate-300">
             {positioning.pillars.map((pillar) => (

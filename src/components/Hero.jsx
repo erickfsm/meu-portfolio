@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useMemo, useRef } from "react";
 import Typewriter from "typewriter-effect";
 import { heroHighlights } from "../data/profileData";
 
@@ -12,18 +12,34 @@ export default function Hero() {
 
   const parallaxY = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const parallaxOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
+  const prefersReducedMotion = useReducedMotion();
+
+  const highlightItems = useMemo(
+    () =>
+      heroHighlights.map((item) => (
+        <div key={item.label} className="rounded-xl bg-[#0c162f]/70 p-4">
+          <div className="text-[11px] uppercase tracking-[0.24em] text-[#00c9a7]">{item.label}</div>
+          <div className="mt-2 text-xl font-semibold text-white">{item.value}</div>
+          <p className="mt-1 text-xs text-slate-400">{item.helper}</p>
+        </div>
+      )),
+    []
+  );
+  const parallaxStyle = prefersReducedMotion ? { opacity: 1 } : { y: parallaxY, opacity: parallaxOpacity };
 
   return (
     <section
       ref={heroRef}
       id="hero"
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center text-white"
+      className="relative flex min-h-screen flex-col items-center justify-center px-6 text-center text-white"
     >
-      <div className="absolute inset-0 -z-30 bg-gradient-to-b from-[#05070f] via-[#081735] to-[#04060f]" />
+      <div className="absolute inset-0 -z-30 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#05070f] via-[#081735] to-[#04060f]" />
+      </div>
 
       <div className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
         <div className="absolute -inset-[40%] opacity-30 [background-image:radial-gradient(rgba(255,255,255,0.18)_1px,transparent_1px)] [background-size:120px_120px] [filter:blur(0.5px)] animate-[heroParticles_28s_linear_infinite]" />
-        <motion.div style={{ y: parallaxY, opacity: parallaxOpacity }} className="absolute inset-0">
+        <motion.div style={parallaxStyle} className="absolute inset-0">
           <div className="absolute -top-32 left-1/2 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[#6c3cff33] blur-3xl" />
           <div className="absolute -bottom-44 right-1/3 h-[520px] w-[520px] rounded-full bg-[#00c9a733] blur-[140px]" />
         </motion.div>
@@ -41,8 +57,16 @@ export default function Hero() {
             style={{ fontFamily: "Orbitron, sans-serif" }}
           >
             <motion.span
-              animate={{ y: [0, -12, 0] }}
-              transition={{ duration: 6, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+              animate={
+                prefersReducedMotion
+                  ? undefined
+                  : { y: [0, -12, 0] }
+              }
+              transition={
+                prefersReducedMotion
+                  ? undefined
+                  : { duration: 6, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
+              }
             >
               De aprendiz a analista de operações
             </motion.span>
@@ -52,22 +76,25 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-sm uppercase tracking-[0.3em] text-slate-300 md:text-base"
-            style={{ letterSpacing: "0.28em" }}
+            className="text-xs uppercase tracking-[0.22em] text-slate-300 sm:text-sm md:text-base md:tracking-[0.28em]"
           >
-            <Typewriter
-              options={{
-                strings: [
-                  "Data · Performance · Estratégia",
-                  "Alta performance com propósito",
-                  "Transformando dados em resultados reais",
-                ],
-                autoStart: true,
-                loop: true,
-                delay: 50,
-                deleteSpeed: 25,
-              }}
-            />
+            {prefersReducedMotion ? (
+              <span>Data · Performance · Estratégia</span>
+            ) : (
+              <Typewriter
+                options={{
+                  strings: [
+                    "Data · Performance · Estratégia",
+                    "Alta performance com propósito",
+                    "Transformando dados em resultados reais",
+                  ],
+                  autoStart: true,
+                  loop: true,
+                  delay: 50,
+                  deleteSpeed: 25,
+                }}
+              />
+            )}
           </motion.h2>
 
           <motion.p
@@ -106,15 +133,9 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.6 }}
-          className="grid w-full max-w-3xl grid-cols-1 gap-3 rounded-2xl border border-white/10 bg-white/5 p-5 text-left shadow-[0_22px_70px_rgba(8,15,35,0.3)] backdrop-blur md:grid-cols-3"
+          className="grid w-full max-w-3xl grid-cols-1 gap-3 rounded-2xl border border-white/10 bg-white/5 p-5 text-left shadow-[0_22px_70px_rgba(8,15,35,0.3)] backdrop-blur sm:grid-cols-2 lg:grid-cols-3"
         >
-          {heroHighlights.map((item) => (
-            <div key={item.label} className="rounded-xl bg-[#0c162f]/70 p-4">
-              <div className="text-xs uppercase tracking-[0.35em] text-[#00c9a7]">{item.label}</div>
-              <div className="mt-2 text-xl font-semibold text-white">{item.value}</div>
-              <p className="mt-1 text-xs text-slate-400">{item.helper}</p>
-            </div>
-          ))}
+          {highlightItems}
         </motion.div>
       </div>
 

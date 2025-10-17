@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +10,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Line, Bar } from "react-chartjs-2";
 import SectionWrapper from "./SectionWrapper";
 import { projectCases } from "../data/projectCases";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Tooltip, Legend);
@@ -31,10 +30,10 @@ function StatusBadge({ status }) {
 
 function Highlights({ highlights }) {
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
       {highlights.map((item) => (
         <div key={item.label} className="rounded-lg bg-[#0b1328]/80 p-3">
-          <div className="text-[11px] uppercase tracking-[0.28em] text-[#6c3cff]">{item.label}</div>
+          <div className="text-[11px] uppercase tracking-[0.22em] text-[#6c3cff]">{item.label}</div>
           <div className="mt-2 text-base font-semibold text-white">{item.value}</div>
         </div>
       ))}
@@ -82,10 +81,15 @@ function CaseModal({ open, onClose, caseData }) {
   return (
     <AnimatePresence>
       {open && caseData && (
-        <motion.div className="fixed inset-0 z-50 flex items-center justify-center p-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-          <div className="absolute inset-0 bg-black/45" onClick={onClose} aria-hidden="true" />
+        <motion.div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
           <motion.div
-            className="relative z-10 w-full max-w-3xl rounded-2xl border border-white/10 bg-[#0b1328] p-8 text-slate-200 shadow-[0_28px_90px_rgba(8,15,35,0.35)] backdrop-blur"
+            className="relative z-10 w-full max-w-3xl overflow-hidden rounded-2xl border border-white/10 bg-[#0b1328] p-6 text-slate-200 shadow-[0_28px_90px_rgba(8,15,35,0.35)] backdrop-blur sm:p-8"
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
@@ -94,7 +98,7 @@ function CaseModal({ open, onClose, caseData }) {
             aria-modal="true"
             aria-labelledby={titleId}
           >
-            <div className="flex items-start justify-between gap-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <h4 id={titleId} className="text-xl font-semibold text-white">
                   {caseData.title}
@@ -104,13 +108,13 @@ function CaseModal({ open, onClose, caseData }) {
               <button
                 type="button"
                 onClick={onClose}
-                className="text-xs uppercase tracking-[0.35em] text-slate-400 transition hover:text-white"
+                className="self-start rounded-full border border-white/15 px-3 py-2 text-[11px] uppercase tracking-[0.3em] text-slate-400 transition hover:border-white/35 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6c3cff]"
                 aria-label="Fechar modal de case"
               >
                 Fechar
               </button>
             </div>
-            <div className="mt-6 space-y-4 text-sm leading-relaxed text-slate-200">
+            <div className="mt-6 max-h-[min(70vh,520px)] space-y-4 overflow-y-auto pr-1 text-sm leading-relaxed text-slate-200 sm:pr-2">
               {caseData.narrative.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -123,50 +127,97 @@ function CaseModal({ open, onClose, caseData }) {
 }
 
 function CaseChart({ chart }) {
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: true, margin: "-120px" });
+  const [ChartComponent, setChartComponent] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!chart || !isInView) {
+      return undefined;
+    }
+
+    let isMounted = true;
+    setLoading(true);
+    setChartComponent(null);
+
+    import("react-chartjs-2")
+      .then((module) => {
+        if (!isMounted) return;
+        setChartComponent(() => (chart.type === "line" ? module.Line : module.Bar));
+      })
+      .finally(() => {
+        if (isMounted) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [chart, isInView]);
+
+  const dataset = useMemo(() => {
+    if (!chart) return null;
+    return {
+      labels: chart.labels,
+      datasets: [
+        {
+          label: chart.type === "line" ? "Resultado" : "Volume",
+          data: chart.data,
+          tension: 0.35,
+          borderWidth: 2,
+          borderColor: "rgba(0,201,167,1)",
+          pointBackgroundColor: "rgba(108,60,255,1)",
+          pointRadius: chart.type === "line" ? 4 : 0,
+          backgroundColor:
+            chart.type === "bar"
+              ? chart.labels.map((_, index) =>
+                  index === chart.labels.length - 1 ? "rgba(0,201,167,0.9)" : "rgba(108,60,255,0.9)"
+                )
+              : "rgba(0,201,167,0.35)",
+          borderRadius: chart.type === "bar" ? 8 : undefined,
+          fill: chart.type === "line",
+        },
+      ],
+    };
+  }, [chart]);
+
   const options = useMemo(() => {
     if (!chart) return null;
     return {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: { legend: { display: false }, tooltip: { mode: "index", intersect: false } },
       scales: {
-        x: { ticks: { color: "#cbd5e1" }, grid: { color: "rgba(255,255,255,0.08)" } },
-        y: { ticks: { color: "#cbd5e1" }, grid: { color: "rgba(255,255,255,0.08)" }, beginAtZero: true },
+        x: {
+          ticks: { color: "#cbd5e1", maxRotation: 45, minRotation: 0 },
+          grid: { color: "rgba(255,255,255,0.08)" },
+        },
+        y: {
+          ticks: { color: "#cbd5e1" },
+          grid: { color: "rgba(255,255,255,0.08)" },
+          beginAtZero: true,
+        },
       },
     };
   }, [chart]);
 
   if (!chart) return null;
 
-  const dataset = {
-    labels: chart.labels,
-    datasets: [
-      {
-        label: chart.type === "line" ? "Resultado" : "Volume",
-        data: chart.data,
-        tension: 0.35,
-        borderWidth: 2,
-        borderColor: "rgba(0,201,167,1)",
-        pointBackgroundColor: "rgba(108,60,255,1)",
-        pointRadius: 4,
-        backgroundColor:
-          chart.type === "bar"
-            ? [
-                "rgba(108,60,255,0.9)",
-                "rgba(108,60,255,0.9)",
-                "rgba(108,60,255,0.9)",
-                "rgba(108,60,255,0.9)",
-                "rgba(0,201,167,0.9)",
-              ]
-            : "rgba(0,201,167,0.35)",
-        borderRadius: chart.type === "bar" ? 8 : undefined,
-        fill: chart.type === "line",
-      },
-    ],
-  };
-
   return (
-    <div className="mt-6 rounded-xl border border-white/10 bg-white/5 p-4">
-      {chart.type === "line" ? <Line data={dataset} options={options} /> : <Bar data={dataset} options={options} />}
+    <div ref={containerRef} className="mt-6 rounded-xl border border-white/10 bg-white/5 p-4">
+      {ChartComponent && dataset && options ? (
+        <div className="h-[240px]">
+          <ChartComponent data={dataset} options={options} />
+        </div>
+      ) : (
+        <div className="grid h-[220px] place-content-center gap-2 text-center text-xs text-slate-400">
+          <span className="animate-pulse text-slate-500">
+            {isInView && loading ? "Carregando gráfico..." : "Gráfico disponível ao rolar"}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
@@ -178,7 +229,7 @@ function ProjectCard({ caseData, onOpen }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#0f1b33]/70 p-8 shadow-[0_24px_80px_rgba(8,15,35,0.35)] backdrop-blur transition hover:border-white/25"
+      className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#0f1b33]/70 p-6 shadow-[0_24px_80px_rgba(8,15,35,0.35)] backdrop-blur transition hover:border-white/25 sm:p-8"
     >
       <div className="pointer-events-none absolute inset-0 opacity-70">
         <span className="absolute -top-32 right-6 h-48 w-48 rounded-full bg-[#6c3cff25] blur-[120px]" />
@@ -222,11 +273,11 @@ function ProjectCard({ caseData, onOpen }) {
 
         <div className="space-y-3">
           <Progress percent={caseData.progress} />
-          <div className="flex items-center justify-between text-xs text-slate-400">
-            <span>Status: {caseData.status}</span>
+          <div className="flex flex-col gap-2 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+            <span className="order-2 sm:order-1">Status: {caseData.status}</span>
             <button
               onClick={() => onOpen(caseData)}
-              className="rounded-full bg-gradient-to-r from-[#6c3cff] to-[#00c9a7] px-3 py-1.5 font-semibold text-black shadow-[0_15px_40px_rgba(108,60,255,0.35)] transition hover:brightness-110"
+              className="order-1 w-full rounded-full bg-gradient-to-r from-[#6c3cff] to-[#00c9a7] px-4 py-2 font-semibold text-black shadow-[0_15px_40px_rgba(108,60,255,0.35)] transition hover:brightness-110 sm:order-2 sm:w-auto"
             >
               Ver narrativa completa
             </button>
