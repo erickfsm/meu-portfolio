@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Chart as ChartJS,
@@ -52,6 +52,30 @@ function Progress({ percent }) {
 }
 
 function CaseModal({ open, onClose, caseData }) {
+  useEffect(() => {
+    if (!open) {
+      return undefined;
+    }
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open, onClose]);
+
+  const titleId = caseData ? `case-modal-title-${caseData.id}` : undefined;
+
   return (
     <AnimatePresence>
       {open && caseData && (
@@ -63,13 +87,23 @@ function CaseModal({ open, onClose, caseData }) {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
             transition={{ duration: 0.25 }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
           >
             <div className="flex items-start justify-between gap-6">
               <div>
-                <h4 className="text-xl font-semibold text-white">{caseData.title}</h4>
+                <h4 id={titleId} className="text-xl font-semibold text-white">
+                  {caseData.title}
+                </h4>
                 <p className="mt-1 text-sm text-slate-400">{caseData.meta}</p>
               </div>
-              <button onClick={onClose} className="text-xs uppercase tracking-[0.35em] text-slate-400 hover:text-white">
+              <button
+                type="button"
+                onClick={onClose}
+                className="text-xs uppercase tracking-[0.35em] text-slate-400 transition hover:text-white"
+                aria-label="Fechar modal de case"
+              >
                 Fechar
               </button>
             </div>
