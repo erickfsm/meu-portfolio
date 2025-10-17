@@ -1,32 +1,35 @@
 export const timelineSteps = [
   {
     year: "2022",
-    role: "Aprendiz · ESAB",
-    context: "Compras e logística no SAP, aprendendo fundamentos de processo e disciplina.",
-    focus: "ERP, cadastros e rotinas de almoxarifado",
+    role: "Jovem Aprendiz · ESAB",
+    context:
+      "Início no mundo corporativo em compras e logística (SAP). Base sólida de processos e disciplina.",
+    focus: "Compras, cadastros e almoxarifado",
   },
   {
-    year: "2024 · jan",
-    role: "Aux. Almoxarifado · Bio Beauty",
-    context: "Controle de estoque e apoio à expedição em indústria cosmética.",
-    focus: "Inventário, abastecimento e gestão de pedidos",
+    year: "2024 · início",
+    role: "Auxiliar de Almoxarifado · Bio Beauty",
+    context: "Controle de estoque e apoio à expedição na indústria cosmética.",
+    focus: "Inventário e fluxo de pedidos",
   },
   {
-    year: "2024 · jun",
-    role: "Aux. Transporte · Global Hospitalar",
-    context: "Rastreamento e relacionamento com clientes farmacêuticos.",
-    focus: "OTD, SLA e comunicação preventiva",
+    year: "2024 · meio",
+    role: "Auxiliar de SAC / Transporte · Global Hospitalar",
+    context: "Rastreamento, prazos e contato com clientes farmacêuticos.",
+    focus: "OTD, SLA e relacionamento",
   },
   {
     year: "2025",
-    role: "Ops Analyst em formação",
-    context: "Dashboards e automações para reduzir atrasos e retrabalho.",
-    focus: "Power BI, Excel avançado, APIs e PDCA",
+    role: "Auxiliar de Transporte — Data-Driven",
+    context:
+      "Dashboards, métricas de OTD e automações simples para reduzir retrabalho na operação.",
+    focus: "Indicadores e automação",
   },
   {
-    year: "Próximo passo",
-    role: "Dados + Automação",
-    context: "Transformar inteligência operacional em produto digital escalável.",
-    focus: "Bots de atendimento, integrações e cultura de performance",
+    year: "Hoje",
+    role: "ADS (PUC Minas) + Formação Alura",
+    context:
+      "Plano de 90 dias com foco em Power BI, SQL, Lean/Kaizen e automação (Power Automate / APIs).",
+    focus: "Dados e melhoria contínua",
   },
 ];

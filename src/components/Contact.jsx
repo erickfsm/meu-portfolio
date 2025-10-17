@@ -31,8 +31,7 @@ export default function Contact() {
       <div>
         <h2 className="section-title">Vamos conversar?</h2>
         <p className="mt-4 text-sm text-slate-300 md:text-base">
-          Aberto a oportunidades em logística inteligente, dados e automação. Vamos transformar indicadores em decisões e manter
-          sua operação no ritmo certo.
+          Aberto a oportunidades e projetos que unam dados, processos e automação.
         </p>
       </div>
 

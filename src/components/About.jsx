@@ -12,7 +12,7 @@ export default function About() {
         viewport={{ once: true }}
         className="section-title"
       >
-        Quem é o Erick?
+        Sobre mim
       </motion.h2>
 
       <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr]">
@@ -42,7 +42,7 @@ export default function About() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="space-y-5 rounded-2xl border border-white/10 bg-white/5 p-6 text-slate-200 shadow-[0_25px_70px_rgba(5,10,30,0.45)] backdrop-blur"
+          className="space-y-5 rounded-2xl border border-white/10 bg-white/5 p-6 text-slate-200 shadow-[0_22px_70px_rgba(8,15,35,0.3)] backdrop-blur"
         >
           <h3 className="text-xl font-semibold text-white">{positioning.headline}</h3>
           <div className="space-y-4 text-sm leading-relaxed text-slate-300">

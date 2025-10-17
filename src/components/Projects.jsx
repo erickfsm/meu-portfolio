@@ -16,9 +16,12 @@ import { projectCases } from "../data/projectCases";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Tooltip, Legend);
 
 const statusColors = {
-  "Em andamento": "bg-amber-500/15 text-amber-300 border-amber-400/30",
-  "Plano executando": "bg-indigo-500/15 text-indigo-300 border-indigo-400/30",
-  "POC": "bg-sky-500/15 text-sky-300 border-sky-400/30",
+  "Em andamento": "bg-amber-500/15 text-amber-200 border-amber-400/30",
+  "Plano executando": "bg-indigo-500/15 text-indigo-200 border-indigo-400/30",
+  "POC": "bg-sky-500/15 text-sky-200 border-sky-400/30",
+  "Entregue": "bg-emerald-500/15 text-emerald-200 border-emerald-400/30",
+  "Operando": "bg-violet-500/15 text-violet-200 border-violet-400/30",
+  "Interrompido": "bg-rose-500/15 text-rose-200 border-rose-400/30",
 };
 
 function StatusBadge({ status }) {
@@ -80,9 +83,9 @@ function CaseModal({ open, onClose, caseData }) {
     <AnimatePresence>
       {open && caseData && (
         <motion.div className="fixed inset-0 z-50 flex items-center justify-center p-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-          <div className="absolute inset-0 bg-black/60" onClick={onClose} aria-hidden="true" />
+          <div className="absolute inset-0 bg-black/45" onClick={onClose} aria-hidden="true" />
           <motion.div
-            className="relative z-10 w-full max-w-3xl rounded-2xl border border-white/10 bg-[#0b1328] p-8 text-slate-200 shadow-[0_45px_120px_rgba(5,10,30,0.55)] backdrop-blur"
+            className="relative z-10 w-full max-w-3xl rounded-2xl border border-white/10 bg-[#0b1328] p-8 text-slate-200 shadow-[0_28px_90px_rgba(8,15,35,0.35)] backdrop-blur"
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
@@ -175,7 +178,7 @@ function ProjectCard({ caseData, onOpen }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#0f1b33]/70 p-8 shadow-[0_35px_110px_rgba(5,10,30,0.55)] backdrop-blur transition hover:border-white/25"
+      className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#0f1b33]/70 p-8 shadow-[0_24px_80px_rgba(8,15,35,0.35)] backdrop-blur transition hover:border-white/25"
     >
       <div className="pointer-events-none absolute inset-0 opacity-70">
         <span className="absolute -top-32 right-6 h-48 w-48 rounded-full bg-[#6c3cff25] blur-[120px]" />
@@ -191,6 +194,8 @@ function ProjectCard({ caseData, onOpen }) {
             </div>
             <StatusBadge status={caseData.status} />
           </div>
+
+          <p className="text-sm leading-relaxed text-slate-300">{caseData.summary}</p>
 
           <div className="space-y-3 text-sm leading-relaxed text-slate-200">
             <div>

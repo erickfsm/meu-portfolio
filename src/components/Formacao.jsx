@@ -3,9 +3,9 @@ import { formacao } from "../data/formacaoData";
 import SectionWrapper from "./SectionWrapper";
 
 const statusColor = {
-  "✅ Concluído": "from-emerald-400 to-emerald-500",
-  "🕒 Em andamento": "from-amber-400 to-amber-500",
-  "⏸ Interrompido": "from-slate-500 to-slate-600",
+  "Concluída": "from-emerald-400 to-emerald-500",
+  "Em andamento": "from-amber-400 to-amber-500",
+  "Planejada": "from-slate-500 to-slate-600",
 };
 
 export default function Formacao() {
@@ -68,7 +68,7 @@ export default function Formacao() {
                   <div className="mt-4">
                     <div className="h-2 overflow-hidden rounded-full bg-slate-700/60">
                       <div
-                        className={`h-full bg-gradient-to-r ${statusColor[etapa.status]}`}
+                        className={`h-full bg-gradient-to-r ${statusColor[etapa.status] || "from-slate-500 to-slate-600"}`}
                         style={{ width: `${etapa.progresso}%` }}
                       />
                     </div>

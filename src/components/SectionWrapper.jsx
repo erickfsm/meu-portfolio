@@ -23,7 +23,7 @@ export default function SectionWrapper({
   }
 
   const surfaceClasses = classNames(
-    "relative overflow-hidden rounded-[32px] border border-white/10 bg-[#0b1224]/70 p-8 md:p-12 shadow-[0_45px_120px_rgba(5,10,30,0.45)] backdrop-blur-xl",
+    "relative overflow-hidden rounded-[32px] border border-white/10 bg-[#0b1224]/70 p-8 md:p-12 shadow-[0_26px_85px_rgba(8,15,35,0.35)] backdrop-blur-xl",
     surfaceClassName
   );
 

@@ -19,7 +19,7 @@ export default function Methodologies() {
         {methodologies.map((cat, i) => (
           <motion.div
             key={cat.categoria}
-            className="rounded-2xl border border-white/10 bg-white/5 p-8 shadow-[0_20px_60px_rgba(5,10,30,0.35)] backdrop-blur"
+            className="rounded-2xl border border-white/10 bg-white/5 p-8 shadow-[0_20px_60px_rgba(8,15,35,0.3)] backdrop-blur"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

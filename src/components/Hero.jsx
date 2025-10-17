@@ -44,7 +44,7 @@ export default function Hero() {
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 6, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
             >
-              Inteligência operacional guiada por dados
+              De aprendiz a analista de operações
             </motion.span>
           </motion.h1>
 
@@ -58,13 +58,13 @@ export default function Hero() {
             <Typewriter
               options={{
                 strings: [
-                  "De aprendiz a analista de operações",
-                  "OTD real, romaneios controlados, devoluções sob comando",
-                  "Transformando logística em gestão inteligente",
+                  "Data · Performance · Estratégia",
+                  "Alta performance com propósito",
+                  "Transformando dados em resultados reais",
                 ],
                 autoStart: true,
                 loop: true,
-                delay: 45,
+                delay: 50,
                 deleteSpeed: 25,
               }}
             />
@@ -74,11 +74,11 @@ export default function Hero() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45, duration: 0.6 }}
-            className="max-w-2xl text-base leading-relaxed text-slate-300 md:text-lg"
+            className="mt-6 max-w-2xl text-base leading-relaxed text-slate-300 md:text-lg"
           >
-            Tenho <strong>19 anos</strong>. Aos <strong>15</strong>, iniciei na logística da ESAB e nunca parei de evoluir. Hoje estudo
-            <strong> ADS na PUC Minas</strong> e lidero planos de ação que recuperam OTD, controlam romaneios e reativam projetos
-            críticos com automação e cultura de melhoria contínua.
+            Tenho <strong>19 anos</strong> e iniciei minha trajetória aos <strong>15</strong> como aprendiz. Hoje, estudante de
+            <strong> ADS (PUC Minas)</strong>, aplico dados, automação e melhoria contínua para transformar operação em
+            <strong> resultado mensurável</strong>.
           </motion.p>
         </div>
 
@@ -92,13 +92,13 @@ export default function Hero() {
             href="#timeline"
             className="rounded-full bg-gradient-to-r from-[#6c3cff] to-[#00c9a7] px-7 py-3 text-sm font-semibold uppercase tracking-wide text-black shadow-lg shadow-[#6c3cff33] transition hover:scale-105 hover:shadow-[#00c9a733]"
           >
-            Evolução profissional
+            Explorar trajetória
           </a>
           <a
-            href="#projects"
+            href="#sobre"
             className="rounded-full border border-white/10 px-7 py-3 text-sm font-semibold uppercase tracking-wide text-white transition hover:border-white/30 hover:bg-white/10"
           >
-            Ver cases reais
+            Sobre mim
           </a>
         </motion.div>
 
@@ -106,7 +106,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.6 }}
-          className="grid w-full max-w-3xl grid-cols-1 gap-3 rounded-2xl border border-white/10 bg-white/5 p-5 text-left shadow-[0_25px_90px_rgba(8,15,35,0.55)] backdrop-blur md:grid-cols-3"
+          className="grid w-full max-w-3xl grid-cols-1 gap-3 rounded-2xl border border-white/10 bg-white/5 p-5 text-left shadow-[0_22px_70px_rgba(8,15,35,0.3)] backdrop-blur md:grid-cols-3"
         >
           {heroHighlights.map((item) => (
             <div key={item.label} className="rounded-xl bg-[#0c162f]/70 p-4">

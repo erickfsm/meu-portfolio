@@ -16,7 +16,7 @@ export default function Timeline() {
         viewport={{ once: true }}
         className="section-title"
       >
-        Evolução profissional
+        Minha trajetória
       </motion.h2>
 
       <div className="grid gap-8 md:grid-cols-[240px_1fr] md:items-start">
@@ -56,7 +56,7 @@ export default function Timeline() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.35 }}
-              className="h-full rounded-2xl border border-white/10 bg-white/5 p-8 text-slate-200 shadow-[0_30px_80px_rgba(5,10,30,0.45)] backdrop-blur"
+              className="h-full rounded-2xl border border-white/10 bg-white/5 p-8 text-slate-200 shadow-[0_24px_70px_rgba(8,15,35,0.3)] backdrop-blur"
             >
               <div className="text-sm uppercase tracking-[0.3em] text-[#00c9a7]">{activeStep.year}</div>
               <h3 className="mt-2 text-2xl font-semibold text-white">{activeStep.role}</h3>
