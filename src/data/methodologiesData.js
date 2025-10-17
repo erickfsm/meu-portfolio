@@ -1,47 +1,39 @@
 export const methodologies = [
   {
-    categoria: "5S aplicado à operação moderna",
+    categoria: "Princípios de trabalho",
     descricao:
-      "A base da organização e disciplina que sustenta a performance operacional.",
+      "Combino fundamentos da manufatura enxuta com análise de dados para garantir execução consistente.",
     metodos: [
       {
-        nome: "Seiri (Utilização)",
-        desc: "Eliminar o que não é necessário para aumentar o foco no essencial.",
+        nome: "5S evolutivo",
+        desc: "Do estoque ao dashboard: organização, padronização e disciplina em cada rotina.",
       },
       {
-        nome: "Seiton (Ordenação)",
-        desc: "Organizar informações e recursos de forma lógica e acessível.",
+        nome: "PDCA",
+        desc: "Planejar → executar → medir → agir. Rodadas semanais para manter o OTD em crescimento.",
       },
       {
-        nome: "Seiso (Limpeza)",
-        desc: "Manter ambiente e dados limpos, garantindo confiabilidade.",
-      },
-      {
-        nome: "Seiketsu (Padronização)",
-        desc: "Criar padrões claros que evitem ambiguidade e retrabalho.",
-      },
-      {
-        nome: "Shitsuke (Disciplina)",
-        desc: "Cultivar constância e disciplina na execução diária.",
+        nome: "Kaizen",
+        desc: "Pequenas melhorias diárias que somam ganhos expressivos em prazos e produtividade.",
       },
     ],
   },
   {
-    categoria: "Gestão de Performance e Melhoria Contínua",
+    categoria: "Ferramentas de decisão",
     descricao:
-      "Frameworks que sustentam uma cultura de eficiência e aprendizado constante.",
+      "Tecnologia para transformar dados crus em direcionamento para a operação.",
     metodos: [
       {
-        nome: "PDCA",
-        desc: "Planejar, Executar, Verificar e Agir – o ciclo essencial da melhoria contínua.",
+        nome: "Power BI + Excel",
+        desc: "Dashboards operacionais, heatmaps de risco e monitoramento de backlog em tempo real.",
       },
       {
-        nome: "Kaizen",
-        desc: "Aprimoramento incremental e diário, que constrói grandes resultados no longo prazo.",
+        nome: "Automação",
+        desc: "Power Automate e scripts para eliminar tarefas repetitivas e disparar alertas inteligentes.",
       },
       {
-        nome: "Scrum",
-        desc: "Sprints curtas e iterativas para maximizar entregas com valor real e mensurável.",
+        nome: "Storytelling",
+        desc: "Tradução dos dados em narrativas claras para diretoria, operação e clientes.",
       },
     ],
   },

@@ -1,66 +1,74 @@
-import { motion } from "framer-motion";
-
-const timeline = [
-  {
-    ano: "2022",
-    empresa: "ESAB",
-    cargo: "Jovem Aprendiz (Compras & Logística)",
-    desc:
-      "Início no mundo corporativo. Rotinas de compras e cadastros no ERP (SAP). Base sólida de processos.",
-  },
-  {
-    ano: "2024 (início)",
-    empresa: "Bio Beauty Industry",
-    cargo: "Auxiliar de Almoxarifado",
-    desc:
-      "Controle de estoque e apoio à expedição. Visão operacional e fluxo de pedidos.",
-  },
-  {
-    ano: "2024 (meio)",
-    empresa: "Global Hospitalar",
-    cargo: "Auxiliar de SAC / Transporte",
-    desc:
-      "Rastreamento, prazos e contato com clientes. Olhar para dados e performance.",
-  },
-  {
-    ano: "2025",
-    empresa: "Global Hospitalar (fase analítica)",
-    cargo: "Auxiliar de Transporte — Data-Driven",
-    desc:
-      "Dashboards, métricas de OTD e automações simples para reduzir retrabalho.",
-  },
-  {
-    ano: "Hoje",
-    empresa: "Desenvolvimento Profissional",
-    cargo: "ADS (PUC Minas) + Formação Alura",
-    desc:
-      "Plano de 90 dias: Power BI, SQL, Lean/Kaizen, automação (Power Automate / APIs).",
-  },
-];
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import SectionWrapper from "./SectionWrapper";
+import { timelineSteps } from "../data/timelineData";
 
 export default function Timeline() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeStep = timelineSteps[activeIndex];
+
   return (
-    <section id="timeline" className="max-w-6xl mx-auto px-6 py-20">
-      <h2 className="text-3xl font-bold text-center mb-12">Minha trajetória</h2>
-      <div className="relative border-l border-white/10 pl-6">
-        {timeline.map((item, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.05 }}
-            className="mb-10"
-          >
-            <div className="absolute -left-[7px] mt-2 w-3 h-3 rounded-full bg-[#00c9a7]" />
-            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-              <div className="text-sm text-slate-400">{item.ano} — {item.empresa}</div>
-              <div className="text-white font-semibold">{item.cargo}</div>
-              <p className="text-slate-300 text-sm mt-2 leading-relaxed">{item.desc}</p>
-            </div>
-          </motion.div>
-        ))}
+    <SectionWrapper id="timeline" contentClassName="space-y-10">
+      <motion.h2
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="section-title"
+      >
+        Evolução profissional
+      </motion.h2>
+
+      <div className="grid gap-8 md:grid-cols-[240px_1fr] md:items-start">
+        <ol className="relative space-y-4 border-l border-white/10 pl-6">
+          {timelineSteps.map((step, index) => {
+            const isActive = index === activeIndex;
+            return (
+              <li key={step.year} className="relative">
+                <button
+                  type="button"
+                  onClick={() => setActiveIndex(index)}
+                  className={`flex w-full flex-col items-start rounded-xl border px-4 py-3 text-left transition ${
+                    isActive
+                      ? "border-[#00c9a7]/60 bg-[#0f1f3e] text-white shadow-[0_15px_40px_rgba(0,201,167,0.25)]"
+                      : "border-white/10 bg-white/5 text-slate-300 hover:border-white/25"
+                  }`}
+                >
+                  <span className="text-xs uppercase tracking-[0.28em] text-[#00c9a7]">{step.year}</span>
+                  <span className="mt-1 text-sm font-semibold">{step.role}</span>
+                  <span className="mt-1 text-xs text-slate-400">{step.focus}</span>
+                </button>
+                <span
+                  className={`absolute -left-[7px] top-5 h-3 w-3 rounded-full ${
+                    isActive ? "bg-[#00c9a7] shadow-[0_0_15px_rgba(0,201,167,0.8)]" : "bg-white/20"
+                  }`}
+                />
+              </li>
+            );
+          })}
+        </ol>
+
+        <div className="relative min-h-[220px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeStep.year}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.35 }}
+              className="h-full rounded-2xl border border-white/10 bg-white/5 p-8 text-slate-200 shadow-[0_30px_80px_rgba(5,10,30,0.45)] backdrop-blur"
+            >
+              <div className="text-sm uppercase tracking-[0.3em] text-[#00c9a7]">{activeStep.year}</div>
+              <h3 className="mt-2 text-2xl font-semibold text-white">{activeStep.role}</h3>
+              <p className="mt-4 text-base leading-relaxed text-slate-300">{activeStep.context}</p>
+              <div className="mt-6 rounded-xl border border-white/10 bg-[#0c162f]/70 p-4 text-sm text-slate-300">
+                <span className="text-xs uppercase tracking-[0.3em] text-slate-400">Foco</span>
+                <p className="mt-2 text-slate-200">{activeStep.focus}</p>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
-    </section>
+    </SectionWrapper>
   );
 }

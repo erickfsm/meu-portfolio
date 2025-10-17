@@ -1,26 +1,38 @@
 export const formacao = [
   {
-    programa: "Formação Alura Plus",
-    foco: "Análise de Dados e Operações",
+    programa: "Plano Alura · 90 dias",
+    foco: "Dados aplicados à logística",
+    badges: ["Power BI", "Lean", "SQL", "Power Automate", "Python"],
     etapas: [
       {
-        nome: "Etapa 1 – Consolidação técnica",
-        status: "Concluída",
+        nome: "Fase 1 — Fundamentos sólidos",
+        status: "✅ Concluído",
+        progresso: 100,
         cursos: [
-          "Excel Avançado – Power Query e Pivot",
-          "Power BI – Dashboards Operacionais",
-          "SQL para Análise de Dados",
+          "Excel e Power Query avançados",
+          "Dashboards operacionais no Power BI",
+          "SQL para análise de dados",
         ],
       },
       {
-        nome: "Etapa 2 – Eficiência e Melhoria Contínua",
-        status: "Em andamento",
-        cursos: ["Lean Six Sigma – Yellow Belt", "BPMN", "Gestão Ágil – Scrum/Kanban"],
+        nome: "Fase 2 — Eficiência e melhoria",
+        status: "🕒 Em andamento",
+        progresso: 55,
+        cursos: [
+          "Lean Six Sigma · Yellow Belt",
+          "BPMN aplicado",
+          "Kaizen diário",
+        ],
       },
       {
-        nome: "Etapa 3 – Automação e Valor de Negócio",
-        status: "Planejada",
-        cursos: ["Power Automate", "APIs REST", "Python para Automação"],
+        nome: "Fase 3 — Automação inteligente",
+        status: "⏸ Interrompido",
+        progresso: 20,
+        cursos: [
+          "Power Automate",
+          "Integração com APIs",
+          "Bots e notificações inteligentes",
+        ],
       },
     ],
   },
