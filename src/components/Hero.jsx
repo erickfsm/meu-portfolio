@@ -31,9 +31,11 @@ export default function Hero() {
     <section
       ref={heroRef}
       id="hero"
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center text-white"
+      className="relative flex min-h-screen flex-col items-center justify-center px-6 text-center text-white"
     >
-      <div className="absolute inset-0 -z-30 bg-gradient-to-b from-[#05070f] via-[#081735] to-[#04060f]" />
+      <div className="absolute inset-0 -z-30 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#05070f] via-[#081735] to-[#04060f]" />
+      </div>
 
       <div className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
         <div className="absolute -inset-[40%] opacity-30 [background-image:radial-gradient(rgba(255,255,255,0.18)_1px,transparent_1px)] [background-size:120px_120px] [filter:blur(0.5px)] animate-[heroParticles_28s_linear_infinite]" />

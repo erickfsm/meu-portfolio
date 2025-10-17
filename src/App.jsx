@@ -8,6 +8,16 @@ import SmoothScroll from "./components/SmoothScroll";
 import About from "./components/About";
 import Formacao from "./components/Formacao";
 import GeminiAssistant from "./components/GeminiAssistant";
+import BackToTopButton from "./components/BackToTopButton";
+
+const navLinks = [
+  { href: "#sobre", label: "Sobre" },
+  { href: "#timeline", label: "Trajetória" },
+  { href: "#projects", label: "Projetos" },
+  { href: "#formacao", label: "Formação" },
+  { href: "#assistant", label: "Gemini" },
+  { href: "#contact", label: "Contato" },
+];
 
 const navLinks = [
   { href: "#sobre", label: "Sobre" },
@@ -124,6 +134,7 @@ export default function App() {
           <GeminiAssistant />
           <Contact />
         </main>
+        <BackToTopButton />
       </div>
     </SmoothScroll>
   );
