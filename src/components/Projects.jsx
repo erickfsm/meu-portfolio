@@ -11,6 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
+import SectionWrapper from "./SectionWrapper";
 
 ChartJS.register(
   CategoryScale,
@@ -173,42 +174,47 @@ function ProjectCard({
   onOpen,
 }) {
   return (
-    <div className="relative bg-white/5 border border-white/10 rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
-      {/* Badge */}
-      <div className="absolute top-4 right-4">
-        <StatusBadge status={status} />
+    <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0f1b33]/70 p-6 shadow-[0_20px_70px_rgba(5,10,30,0.45)] backdrop-blur transition duration-300 hover:border-white/25 hover:shadow-[0_30px_90px_rgba(5,10,30,0.55)]">
+      <div className="pointer-events-none absolute inset-0 opacity-70">
+        <span className="absolute -top-24 right-4 h-48 w-48 rounded-full bg-[#6c3cff20] blur-[110px]" />
+        <span className="absolute -bottom-24 left-6 h-56 w-56 rounded-full bg-[#00c9a722] blur-[120px]" />
       </div>
 
-      <h3 className="text-xl font-semibold text-white">{title}</h3>
-      <p className="text-slate-300 mt-2">{description}</p>
-
-      {chart && <div className="mt-4 bg-white/5 p-3 rounded-xl">{chart}</div>}
-
-      {kpis.length > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
-          {kpis.map((k, i) => (
-            <KPI key={i} {...k} />
-          ))}
+      <div className="relative z-10">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h3 className="text-xl font-semibold text-white">{title}</h3>
+            <p className="mt-2 text-sm text-slate-300">{description}</p>
+          </div>
+          <StatusBadge status={status} />
         </div>
-      )}
 
-      <div className="mt-5 flex items-center gap-3">
-        <Progress percent={progress} />
-        <span className="text-slate-300 text-sm min-w-[72px] text-right">
-          {progress}%
-        </span>
-      </div>
+        {chart && <div className="mt-5 rounded-xl border border-white/10 bg-white/5 p-3">{chart}</div>}
 
-      <div className="mt-3 flex items-center justify-between text-sm">
-        <span className="text-slate-300">
-          Meta: <strong className="text-white">{meta}</strong>
-        </span>
-        <button
-          onClick={onOpen}
-          className="px-3 py-1.5 rounded-full bg-gradient-to-r from-[#6c3cff] to-[#00c9a7] text-black text-xs font-semibold"
-        >
-          Ver case completo
-        </button>
+        {kpis.length > 0 && (
+          <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
+            {kpis.map((k, i) => (
+              <KPI key={i} {...k} />
+            ))}
+          </div>
+        )}
+
+        <div className="mt-6 flex items-center gap-3">
+          <Progress percent={progress} />
+          <span className="min-w-[72px] text-right text-sm text-slate-300">{progress}%</span>
+        </div>
+
+        <div className="mt-4 flex items-center justify-between text-sm text-slate-300">
+          <span>
+            Meta: <strong className="text-white">{meta}</strong>
+          </span>
+          <button
+            onClick={onOpen}
+            className="rounded-full bg-gradient-to-r from-[#6c3cff] to-[#00c9a7] px-3 py-1.5 text-xs font-semibold text-black shadow-[0_10px_35px_rgba(108,60,255,0.35)] transition hover:brightness-110"
+          >
+            Ver case completo
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -222,10 +228,22 @@ export default function Projects() {
   const closeModal = () => setModal({ open: false, title: "", content: null });
 
   return (
-    <section id="projects" className="max-w-6xl mx-auto px-6 py-20 text-white">
-      <h2 className="text-3xl font-bold mb-10 text-center">Projetos & Resultados</h2>
+    <SectionWrapper id="projects" contentClassName="text-white">
+      <motion.h2
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="section-title"
+      >
+        Projetos & Resultados
+      </motion.h2>
+      <p className="mx-auto mt-4 max-w-3xl text-center text-sm text-slate-300">
+        Entregas estruturadas em desafio → ação → resultado, com dados reais da operação
+        logística e automações de suporte à tomada de decisão.
+      </p>
 
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="mt-12 grid gap-8 md:grid-cols-2">
         {/* 1) OTD */}
         <ProjectCard
           title="Evolução do OTD"
@@ -420,14 +438,13 @@ export default function Projects() {
         />
       </div>
 
-      <p className="text-center text-slate-400 text-sm mt-8">
-        * Indicadores e metas podem ser refinados conforme novas evidências/documentos.
+      <p className="mt-10 text-center text-sm text-slate-400">
+        * Indicadores e metas são atualizados continuamente conforme novas evidências operacionais.
       </p>
 
-      {/* Modal */}
       <CaseModal open={modal.open} onClose={closeModal} title={modal.title}>
         {modal.content}
       </CaseModal>
-    </section>
+    </SectionWrapper>
   );
 }

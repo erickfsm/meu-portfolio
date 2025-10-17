@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import SectionWrapper from "./SectionWrapper";
 
 const timeline = [
   {
@@ -40,27 +41,35 @@ const timeline = [
 
 export default function Timeline() {
   return (
-    <section id="timeline" className="max-w-6xl mx-auto px-6 py-20">
-      <h2 className="text-3xl font-bold text-center mb-12">Minha trajetória</h2>
-      <div className="relative border-l border-white/10 pl-6">
+    <SectionWrapper id="timeline" contentClassName="mx-auto max-w-3xl">
+      <motion.h2
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="section-title"
+      >
+        Minha trajetória
+      </motion.h2>
+      <div className="mt-10 relative border-l border-white/10 pl-6">
         {timeline.map((item, i) => (
           <motion.div
-            key={i}
+            key={item.ano}
             initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.05 }}
             className="mb-10"
           >
-            <div className="absolute -left-[7px] mt-2 w-3 h-3 rounded-full bg-[#00c9a7]" />
-            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+            <div className="absolute -left-[7px] mt-2 h-3 w-3 rounded-full bg-[#00c9a7] shadow-[0_0_15px_rgba(0,201,167,0.8)]" />
+            <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur">
               <div className="text-sm text-slate-400">{item.ano} — {item.empresa}</div>
               <div className="text-white font-semibold">{item.cargo}</div>
-              <p className="text-slate-300 text-sm mt-2 leading-relaxed">{item.desc}</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-300">{item.desc}</p>
             </div>
           </motion.div>
         ))}
       </div>
-    </section>
+    </SectionWrapper>
   );
 }

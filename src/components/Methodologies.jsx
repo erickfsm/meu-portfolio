@@ -1,42 +1,47 @@
 import { motion } from "framer-motion";
 import { methodologies } from "../data/methodologiesData";
+import SectionWrapper from "./SectionWrapper";
 
 export default function Methodologies() {
   return (
-    <section id="methodologies" className="relative py-20">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#081226] via-[#0a1630] to-[#060b1c]" />
+    <SectionWrapper id="methodologies" contentClassName="text-slate-200">
+      <motion.h2
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="section-title"
+      >
+        Metodologias & Cultura de Alta Performance
+      </motion.h2>
 
-      <div className="max-w-6xl mx-auto px-6 text-slate-200">
-        <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-center mb-12">
-          Metodologias & Cultura de Alta Performance
-        </h2>
-
+      <div className="mt-12 space-y-12">
         {methodologies.map((cat, i) => (
           <motion.div
-            key={i}
-            className="mb-14 bg-white/5 border border-white/10 rounded-2xl p-8"
+            key={cat.categoria}
+            className="rounded-2xl border border-white/10 bg-white/5 p-8 shadow-[0_20px_60px_rgba(5,10,30,0.35)] backdrop-blur"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.45, delay: i * 0.1 }}
           >
             <h3 className="text-xl font-semibold text-white">{cat.categoria}</h3>
-            <p className="text-slate-400 text-sm mb-6 mt-1">{cat.descricao}</p>
+            <p className="mt-2 text-sm text-slate-400">{cat.descricao}</p>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {cat.metodos.map((m, j) => (
                 <motion.div
-                  key={j}
-                  className="bg-white/5 border border-white/10 rounded-xl p-5"
+                  key={m.nome}
+                  className="rounded-xl border border-white/10 bg-[#0f1b33]/70 p-5 backdrop-blur"
                   initial={{ opacity: 0, y: 12 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: j * 0.08 }}
                 >
-                  <div className="text-[#00c9a7] font-semibold text-sm tracking-wide">
+                  <div className="text-sm font-semibold uppercase tracking-[0.2em] text-[#00c9a7]">
                     {m.nome}
                   </div>
-                  <p className="text-slate-300 text-sm mt-1 leading-relaxed">
+                  <p className="mt-2 text-sm leading-relaxed text-slate-300">
                     {m.desc}
                   </p>
                 </motion.div>
@@ -45,6 +50,6 @@ export default function Methodologies() {
           </motion.div>
         ))}
       </div>
-    </section>
+    </SectionWrapper>
   );
 }
