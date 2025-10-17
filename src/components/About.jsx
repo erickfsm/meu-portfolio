@@ -23,8 +23,11 @@ export default function About() {
           transition={{ duration: 0.6 }}
           className="space-y-4 text-lg leading-relaxed text-slate-300"
         >
-          {aboutNarrative.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
+          {aboutNarrative.map((paragraph, index) => (
+            <p
+              key={index}
+              dangerouslySetInnerHTML={{ __html: paragraph }}
+            />
           ))}
 
           <div className="grid gap-3 rounded-2xl border border-white/10 bg-[#0c162f]/80 p-5 text-sm text-slate-300 md:grid-cols-4 md:text-center">
