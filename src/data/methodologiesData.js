@@ -1,4 +1,4 @@
-export const methodologies = [
+const methodologies = [
   {
     categoria: "5S aplicado à operação moderna",
     descricao:
@@ -46,3 +46,5 @@ export const methodologies = [
     ],
   },
 ];
+
+export default methodologies;

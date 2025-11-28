@@ -1,0 +1,12 @@
+export { default as Timeline } from "./Timeline";
+export { default as SmoothScroll } from "./SmoothScroll";
+export { default as SectionWrapper } from "./SectionWrapper";
+export { default as Projects } from "./Projects";
+export { default as Navbar } from "./Navbar";
+export { default as Methodologies } from "./Methodologies";
+export { default as Hero } from "./Hero";
+export { default as GeminiAssistant } from "./GeminiAssistant";
+export { default as Formacao } from "./Formacao";
+export { default as Contact } from "./Contact";
+export { default as BackToTopButton } from "./BackToTopButton";
+export { default as About } from "./About";

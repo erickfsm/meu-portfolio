@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { methodologies } from "../data/methodologiesData";
+import methodologiesData from "../data/methodologiesData";
 import SectionWrapper from "./SectionWrapper";
 
 export default function Methodologies() {
@@ -16,7 +16,7 @@ export default function Methodologies() {
       </motion.h2>
 
       <div className="mt-12 space-y-12">
-        {methodologies.map((cat, i) => (
+        {methodologiesData.map((cat, i) => (
           <motion.div
             key={cat.categoria}
             className="rounded-2xl border border-white/10 bg-white/5 p-8 shadow-[0_20px_60px_rgba(8,15,35,0.3)] backdrop-blur"

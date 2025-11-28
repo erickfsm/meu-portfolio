@@ -1,4 +1,4 @@
-export const formacao = [
+const formacaoData = [
   {
     programa: "Formação Alura Plus",
     foco: "Análise de Dados e Operações",
@@ -29,3 +29,5 @@ export const formacao = [
     ],
   },
 ];
+
+export default formacaoData;

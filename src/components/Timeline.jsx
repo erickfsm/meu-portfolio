@@ -1,30 +1,32 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionWrapper from "./SectionWrapper";
 import { timelineSteps } from "../data/timelineData";
 
 export default function Timeline() {
+  // mostra no máximo 3 marcos-chave + botão "ver tudo"
+  const compact = useMemo(() => timelineSteps.slice(0, 3), []);
+  const [showAll, setShowAll] = useState(false);
+  const steps = showAll ? timelineSteps : compact;
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeStep = timelineSteps[activeIndex];
+  const activeStep = steps[activeIndex];
 
   return (
-    <SectionWrapper id="timeline" contentClassName="space-y-10">
+    <SectionWrapper id="timeline" contentClassName="space-y-8">
       <motion.h2
-        initial={{ opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
+        initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }} viewport={{ once: true }}
         className="section-title"
       >
-        Minha trajetória
+        Trajetória (3 marcos)
       </motion.h2>
 
-      <div className="grid gap-8 md:grid-cols-[240px_1fr] md:items-start">
-        <ol className="relative space-y-4 border-l border-white/10 pl-6">
-          {timelineSteps.map((step, index) => {
+      <div className="grid gap-6 md:grid-cols-[240px_1fr] md:items-start">
+        <ol className="relative space-y-3 border-l border-white/10 pl-6">
+          {steps.map((step, index) => {
             const isActive = index === activeIndex;
             return (
-              <li key={step.year} className="relative">
+              <li key={`${step.year}-${step.role}`} className="relative">
                 <button
                   type="button"
                   onClick={() => setActiveIndex(index)}
@@ -51,20 +53,29 @@ export default function Timeline() {
         <div className="relative min-h-[220px]">
           <AnimatePresence mode="wait">
             <motion.div
-              key={activeStep.year}
+              key={`${activeStep.year}-${activeStep.role}`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.35 }}
-              className="h-full rounded-2xl border border-white/10 bg-white/5 p-8 text-slate-200 shadow-[0_24px_70px_rgba(8,15,35,0.3)] backdrop-blur"
+              className="h-full rounded-2xl border border-white/10 bg-white/5 p-6 text-slate-200 shadow-[0_24px_70px_rgba(8,15,35,0.3)] backdrop-blur"
             >
-              <div className="text-sm uppercase tracking-[0.3em] text-[#00c9a7]">{activeStep.year}</div>
-              <h3 className="mt-2 text-2xl font-semibold text-white">{activeStep.role}</h3>
-              <p className="mt-4 text-base leading-relaxed text-slate-300">{activeStep.context}</p>
-              <div className="mt-6 rounded-xl border border-white/10 bg-[#0c162f]/70 p-4 text-sm text-slate-300">
-                <span className="text-xs uppercase tracking-[0.3em] text-slate-400">Foco</span>
-                <p className="mt-2 text-slate-200">{activeStep.focus}</p>
+              <div className="text-xs uppercase tracking-[0.3em] text-[#00c9a7]">{activeStep.year}</div>
+              <h3 className="mt-1 text-xl font-semibold text-white">{activeStep.role}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-slate-300">{activeStep.context}</p>
+              <div className="mt-4 rounded-xl border border-white/10 bg-[#0c162f]/70 p-4 text-sm text-slate-300">
+                <span className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Foco</span>
+                <p className="mt-1 text-slate-200">{activeStep.focus}</p>
               </div>
+              {!showAll && timelineSteps.length > 3 && (
+                <button
+                  type="button"
+                  onClick={() => setShowAll(true)}
+                  className="mt-4 text-xs uppercase tracking-[0.28em] text-[#00c9a7] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00c9a7]"
+                >
+                  ver tudo
+                </button>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>

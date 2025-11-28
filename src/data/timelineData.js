@@ -1,4 +1,4 @@
-export const timelineSteps = [
+const timelineData = [
   {
     year: "2022",
     role: "Jovem Aprendiz · ESAB",
@@ -33,3 +33,5 @@ export const timelineSteps = [
     focus: "Dados e melhoria contínua",
   },
 ];
+
+export default timelineData;

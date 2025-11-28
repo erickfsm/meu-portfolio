@@ -1,4 +1,4 @@
-export const projectCases = [
+const projectCases = [
   {
     id: "otd",
     title: "Evolução do OTD",
@@ -153,3 +153,5 @@ export const projectCases = [
     ],
   },
 ];
+
+export default projectCases;

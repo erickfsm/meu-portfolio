@@ -1,4 +1,4 @@
-export const heroHighlights = [
+const profileData = [
   {
     label: "OTD", 
     value: "83% → 89%", 
@@ -48,7 +48,18 @@ export const quickFacts = [
   { label: "Idade", value: "19 anos" },
   { label: "Formação", value: "ADS · PUC Minas" },
   { label: "Foco", value: "Dados + Operações" },
-  { label: "Cidade", value: "Belo Horizonte/MG" },
+  { label: "Cidade", value: "Ibirité/MG" },
 ];
 
 export const badges = ["Power BI", "Lean/Kaizen", "SQL", "Power Automate", "Excel Avançado"];
+
+export const heroHighlights = [
+  { label: "Excel Avançado", value: "Domínio em análise de dados" },
+  { label: "Power BI", value: "Criação de dashboards estratégicos" },
+  { label: "Power Automate", value: "Automação de processos logísticos" },
+  { label: "OTD", value: "83% → 89%", helper: "60 dias" },
+  { label: "Romaneios", value: "+409%", helper: "plano para +699%" },
+  { label: "Automação", value: "70%", helper: "menos tempo em rotinas" },
+];
+
+export default profileData;

@@ -11,7 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import SectionWrapper from "./SectionWrapper";
-import { projectCases } from "../data/projectCases";
+import projectCases from "../data/projectCases";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Tooltip, Legend);
 
 const statusColors = {
@@ -31,7 +31,7 @@ function StatusBadge({ status }) {
 function Highlights({ highlights }) {
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
-      {highlights.map((item) => (
+      {projectCases.map((item) => (
         <div key={item.label} className="rounded-lg bg-[#0b1328]/80 p-3">
           <div className="text-[11px] uppercase tracking-[0.22em] text-[#6c3cff]">{item.label}</div>
           <div className="mt-2 text-base font-semibold text-white">{item.value}</div>

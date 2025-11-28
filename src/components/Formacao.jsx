@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { formacao } from "../data/formacaoData";
+import formacaoData from "../data/formacaoData";
 import SectionWrapper from "./SectionWrapper";
 
 const statusColor = {
@@ -22,7 +22,7 @@ export default function Formacao() {
       </motion.h2>
 
       <div className="mt-10 space-y-10">
-        {formacao.map((programa, i) => (
+        {formacaoData.map((programa, i) => (
           <motion.div
             key={programa.programa}
             className="rounded-2xl border border-white/10 bg-white/5 p-8 shadow-[0_20px_60px_rgba(5,10,30,0.35)] backdrop-blur"
