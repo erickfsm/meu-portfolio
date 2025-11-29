@@ -1,13 +1,13 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionWrapper from "./SectionWrapper";
-import { timelineSteps } from "../data/timelineData";
+import timelineData from "../data/timelineData";
 
 export default function Timeline() {
   // mostra no máximo 3 marcos-chave + botão "ver tudo"
-  const compact = useMemo(() => timelineSteps.slice(0, 3), []);
+  const compact = useMemo(() => timelineData.slice(0, 3), []);
   const [showAll, setShowAll] = useState(false);
-  const steps = showAll ? timelineSteps : compact;
+  const steps = showAll ? timelineData : compact;
   const [activeIndex, setActiveIndex] = useState(0);
   const activeStep = steps[activeIndex];
 
@@ -67,7 +67,7 @@ export default function Timeline() {
                 <span className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Foco</span>
                 <p className="mt-1 text-slate-200">{activeStep.focus}</p>
               </div>
-              {!showAll && timelineSteps.length > 3 && (
+              {!showAll && timelineData.length > 3 && (
                 <button
                   type="button"
                   onClick={() => setShowAll(true)}

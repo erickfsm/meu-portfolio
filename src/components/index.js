@@ -1,4 +1,5 @@
 export { default as Timeline } from "./Timeline";
+export { default as StickyCTA } from "./StickyCTA";
 export { default as SmoothScroll } from "./SmoothScroll";
 export { default as SectionWrapper } from "./SectionWrapper";
 export { default as Projects } from "./Projects";
