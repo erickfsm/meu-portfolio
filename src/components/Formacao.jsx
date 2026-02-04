@@ -1,13 +1,6 @@
 import SectionWrapper from "./SectionWrapper";
 
 const formacao = {
-  academica: {
-    titulo: "Análise e Desenvolvimento de Sistemas",
-    instituicao: "PUC Minas (EAD)",
-    periodo: "Ago/2025 - Dez/2027",
-    status: "Em andamento",
-    descricao: "Graduação tecnológica focada em desenvolvimento de software, banco de dados, estruturas de dados e gestão de projetos."
-  },
   aluraPlus: {
     titulo: "Formação Alura Plus",
     foco: "Análise de Dados e Automação",
