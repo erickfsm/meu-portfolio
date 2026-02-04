@@ -1,6 +1,7 @@
 import SectionWrapper from "./SectionWrapper";
 
 const formacao = {
+
   aluraPlus: {
     titulo: "Formação Alura Plus",
     foco: "Análise de Dados e Automação",
@@ -59,27 +60,7 @@ const formacao = {
 export default function Formacao() {
   return (
     <SectionWrapper id="formacao" title="Formação & Desenvolvimento">
-      
-      {/* Formação Acadêmica */}
-      <div className="rounded-2xl border border-white/10 bg-[#0b1328]/60 p-8 mb-8">
-        <div className="flex items-start justify-between mb-6">
-          <div>
-            <h3 className="text-2xl font-bold text-white mb-2">
-              🎓 {formacao.academica.titulo}
-            </h3>
-            <p className="text-slate-400">
-              {formacao.academica.instituicao} · {formacao.academica.periodo}
-            </p>
-          </div>
-          <span className="px-4 py-2 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 text-sm font-bold">
-            {formacao.academica.status}
-          </span>
-        </div>
-        <p className="text-slate-300 leading-relaxed">
-          {formacao.academica.descricao}
-        </p>
-      </div>
-
+    
       {/* Formação Alura Plus */}
       <div className="rounded-2xl border border-white/10 bg-[#0b1328]/60 p-8 mb-8">
         <h3 className="text-2xl font-bold text-white mb-2">
