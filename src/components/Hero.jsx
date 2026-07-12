@@ -1,93 +1,59 @@
+import { ArrowDown, Activity } from "lucide-react";
+import { heroMetrics } from "../data/mockData";
+
 export default function Hero() {
   return (
-    <section id="inicio" className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="grid items-center gap-12 md:grid-cols-[1.3fr_0.7fr]">
-          
-          {/* Texto Principal */}
-          <div className="space-y-6">
-            <div className="inline-block">
-              <span className="text-[#00c9a7] text-sm font-semibold uppercase tracking-wider">
-                Analista Logístico & inovação
-              </span>
-            </div>
-            
-            <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
-              Transformo dados em 
-              <span className="text-[#00c9a7]"> decisões estratégicas</span>
-            </h1>
-            
-            <p className="text-lg text-slate-300 max-w-xl leading-relaxed">
-              Sou Erick Filipe. Estudante em tecnologia e otimização de processos logísticos 
-              com foco em <strong>OTD</strong>, <strong>automação</strong> e 
-              <strong> gestão de dados</strong>. Transformo complexidade em 
-              simplicidade usando Excel Avançado, Power BI, metodologias ágeis e storytelling.
-            </p>
+    <section id="inicio" className="relative overflow-hidden pt-36 pb-24 md:pt-44 md:pb-32">
+      <div className="grid-texture pointer-events-none absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,black,transparent)]" />
 
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-4 pt-4">
-              <a
-                href="#projetos"
-                className="inline-block rounded-lg bg-[#00c9a7] px-8 py-3.5 text-sm font-bold text-[#050b18] transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(0,201,167,0.4)]"
-              >
-                Ver Projetos
-              </a>
-              <a
-                href="https://wa.me/5531972372452"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block rounded-lg border border-white/20 bg-white/5 px-8 py-3.5 text-sm font-bold text-white transition-all hover:bg-white/10 hover:border-white/40"
-              >
-                Vamos conversar
-              </a>
-            </div>
+      <div className="mx-auto max-w-5xl px-6 text-center">
+        <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-line bg-panel/60 px-4 py-1.5 backdrop-blur-sm">
+          <Activity className="h-3.5 w-3.5 text-gold" />
+          <span className="text-xs font-medium uppercase tracking-[0.18em] text-mist">
+            Torre de Controle · Operações Ativas
+          </span>
+        </div>
 
-            {/* Stats Rápidos */}
-            <div className="flex flex-wrap gap-6 pt-6 border-t border-white/10">
-              <div>
-                <div className="text-2xl font-bold text-[#00c9a7]">83% → 89%</div>
-                <div className="text-xs text-slate-400 uppercase">OTD em menos de 60 dias</div>
+        <h1 className="font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-ivory md:text-6xl">
+          Erick Filipe
+        </h1>
+        <p className="mx-auto mt-4 max-w-2xl text-lg font-medium text-gold-soft md:text-xl">
+          Analista de Operações & Dados{" "}
+          <span className="text-mist font-normal">| Supply Chain & Torre de Controle</span>
+        </p>
+
+        <p className="mx-auto mt-6 max-w-2xl text-balance text-base leading-relaxed text-mist md:text-lg">
+          Desenvolvo sistemas, dashboards e automações para eliminar gargalos
+          operacionais e garantir a eficiência logística do B2B ao{" "}
+          <span className="text-ivory">Last Mile</span>.
+        </p>
+
+        <div className="mt-10 flex flex-col items-center gap-4">
+          <a
+            href="#showroom"
+            className="group inline-flex items-center gap-2 rounded-lg bg-gold px-8 py-3.5 text-sm font-bold text-ink transition-all duration-300 hover:bg-gold-soft hover:shadow-[0_0_36px_rgba(201,169,97,0.35)]"
+          >
+            Explorar Showroom de Projetos
+            <ArrowDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
+          </a>
+        </div>
+
+        <div className="mx-auto mt-14 grid max-w-2xl grid-cols-3 gap-4 border-t border-line pt-8">
+          {heroMetrics.map((m) => (
+            <div key={m.label}>
+              <div className="font-mono text-xl font-semibold text-gold md:text-2xl">
+                {m.value}
               </div>
-              <div>
-                <div className="text-2xl font-bold text-[#00c9a7]">-70%</div>
-                <div className="text-xs text-slate-400 uppercase">Volume de romaneios</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-[#00c9a7]">70%</div>
-                <div className="text-xs text-slate-400 uppercase">Menos trabalho manual</div>
+              <div className="mt-1 text-[11px] uppercase tracking-wider text-mist-dim">
+                {m.label}
               </div>
             </div>
-          </div>
-
-          {/* Cards de Destaque */}
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { label: "Excel Avançado", value: "Power Query & Pivot", icon: "📊" },
-              { label: "Power BI", value: "Dashboards", icon: "📈" },
-              { label: "SQL", value: "Análise de Dados", icon: "🗄️" },
-              { label: "Metodologias", value: "Lean, Scrum, PDCA, Storytelling", icon: "⚙️" }
-            ].map((item, i) => (
-              <div 
-                key={i} 
-                className="rounded-xl border border-white/10 bg-[#0b1328]/70 p-5 backdrop-blur-sm transition-all hover:border-[#00c9a7]/30 hover:bg-[#0b1328] hover:-translate-y-1"
-              >
-                <div className="text-2xl mb-2">{item.icon}</div>
-                <div className="text-xs uppercase tracking-wider text-slate-400 mb-1">
-                  {item.label}
-                </div>
-                <div className="text-sm font-semibold text-white">
-                  {item.value}
-                </div>
-              </div>
-            ))}
-          </div>
-
+          ))}
         </div>
       </div>
-      
-      {/* Efeito de fundo sutil */}
-      <div className="absolute top-0 right-0 -z-10 h-[600px] w-[600px] bg-[#00c9a7]/5 blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 left-0 -z-10 h-[400px] w-[400px] bg-[#6c3cff]/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="pointer-events-none absolute -top-24 right-0 -z-10 h-[520px] w-[520px] rounded-full bg-gold/[0.06] blur-[140px]" />
+      <div className="pointer-events-none absolute bottom-0 left-0 -z-10 h-[360px] w-[360px] rounded-full bg-gold/[0.04] blur-[120px]" />
     </section>
   );
 }
