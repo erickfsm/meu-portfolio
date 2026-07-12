@@ -31,12 +31,14 @@ export default function Timeline() {
                 </div>
 
                 <div className="h-full rounded-2xl border border-line bg-panel/60 p-6 backdrop-blur-sm transition-all duration-300 hover:border-gold/25 hover:bg-panel">
-                  <h3 className="font-display text-lg font-bold text-ivory">
-                    {step.label}
-                  </h3>
-                  <p className="mt-1 text-sm font-medium text-gold-soft/90">
-                    {step.subtitle}
-                  </p>
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="font-display text-lg font-bold text-ivory">
+                      {step.title}
+                    </h3>
+                    <span className="flex-shrink-0 rounded-full border border-gold/20 bg-gold/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-gold-soft">
+                      {step.company}
+                    </span>
+                  </div>
                   <p className="mt-3 text-sm leading-relaxed text-mist">
                     {step.description}
                   </p>

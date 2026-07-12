@@ -3,7 +3,8 @@ import { X } from "lucide-react";
 import TourOverlay from "./TourOverlay";
 import ControlTowerSandbox from "./sandbox/ControlTowerSandbox";
 import EngineSandbox from "./sandbox/EngineSandbox";
-import SpreadsheetSandbox from "./sandbox/SpreadsheetSandbox";
+import AuditB2BSandbox from "./sandbox/AuditB2BSandbox";
+import ApexCareSandbox from "./sandbox/ApexCareSandbox";
 
 export default function ProjectModal({ project, onClose }) {
   const [tourStep, setTourStep] = useState(0);
@@ -31,14 +32,14 @@ export default function ProjectModal({ project, onClose }) {
 
   const renderSandbox = () => {
     switch (project.type) {
-      case "control-tower":
+      case "control-tower-ext":
         return <ControlTowerSandbox />;
       case "engine":
         return <EngineSandbox />;
-      case "spreadsheet":
-        return <SpreadsheetSandbox mode="sla" />;
-      case "audit":
-        return <SpreadsheetSandbox mode="audit" />;
+      case "audit-b2b":
+        return <AuditB2BSandbox />;
+      case "apex-care":
+        return <ApexCareSandbox />;
       default:
         return null;
     }

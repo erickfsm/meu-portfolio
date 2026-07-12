@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { Radar, Cog, Table2, ShieldCheck, ArrowUpRight } from "lucide-react";
+import { Radar, Cog, ClipboardCheck, Sofa, ArrowUpRight, Github, ExternalLink } from "lucide-react";
 import { projects } from "../data/mockData";
 import ProjectModal from "./ProjectModal";
 
 const iconByType = {
-  "control-tower": Radar,
+  "control-tower-ext": Radar,
   engine: Cog,
-  spreadsheet: Table2,
-  audit: ShieldCheck,
+  "audit-b2b": ClipboardCheck,
+  "apex-care": Sofa,
 };
 
 const accentClasses = {
@@ -15,6 +15,11 @@ const accentClasses = {
     icon: "text-gold",
     ring: "group-hover:border-gold/35",
     glow: "group-hover:shadow-[0_0_40px_rgba(201,169,97,0.12)]",
+  },
+  amber: {
+    icon: "text-amber-400",
+    ring: "group-hover:border-amber-400/35",
+    glow: "group-hover:shadow-[0_0_40px_rgba(251,191,36,0.10)]",
   },
   sky: {
     icon: "text-sky-400",
@@ -32,6 +37,12 @@ const accentClasses = {
     glow: "group-hover:shadow-[0_0_40px_rgba(251,113,133,0.10)]",
   },
 };
+
+const EXTERNAL_LINKS = [
+  { key: "github", label: "GitHub", icon: Github },
+  { key: "live", label: "Site", icon: ExternalLink },
+  { key: "prelaunch", label: "Pré-lançamento", icon: ExternalLink },
+];
 
 export default function Projects() {
   const [activeProject, setActiveProject] = useState(null);
@@ -52,6 +63,8 @@ export default function Projects() {
           {projects.map((project) => {
             const Icon = iconByType[project.type];
             const accent = accentClasses[project.accent];
+            const links = project.links || {};
+            const hasLinks = Object.keys(links).length > 0;
 
             return (
               <div
@@ -62,7 +75,14 @@ export default function Projects() {
                   <div className={`flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-white/[0.03] ${accent.icon}`}>
                     <Icon className="h-5 w-5" />
                   </div>
-                  <span className="font-mono text-xs text-mist-dim">{project.number}</span>
+                  <div className="flex flex-col items-end gap-1.5">
+                    <span className="font-mono text-xs text-mist-dim">{project.number}</span>
+                    {project.status && (
+                      <span className="rounded-full border border-amber-400/25 bg-amber-400/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-400">
+                        {project.status}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 <h3 className="mt-5 font-display text-lg font-bold text-ivory">
@@ -83,6 +103,24 @@ export default function Projects() {
                     </span>
                   ))}
                 </div>
+
+                {hasLinks && (
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    {EXTERNAL_LINKS.filter((l) => links[l.key]).map((l) => (
+                      <a
+                        key={l.key}
+                        href={links[l.key]}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1.5 text-[11px] font-medium text-mist-dim transition-colors duration-300 hover:text-gold"
+                      >
+                        <l.icon className="h-3 w-3" />
+                        {l.label}
+                      </a>
+                    ))}
+                  </div>
+                )}
 
                 <button
                   onClick={() => setActiveProject(project)}

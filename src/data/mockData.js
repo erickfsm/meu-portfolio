@@ -1,5 +1,6 @@
-// Todos os dados abaixo são fictícios (mock), usados apenas para simular
-// o comportamento das interfaces dentro do "Showroom de Projetos".
+// Todos os dados abaixo são fictícios ou reconstituídos para fins de demonstração
+// (mock), usados apenas para simular o comportamento das interfaces dentro do
+// "Showroom de Projetos". Nenhuma chamada de rede real é feita a partir daqui.
 
 export const profile = {
   name: "Erick Filipe",
@@ -13,64 +14,74 @@ export const profile = {
 };
 
 export const heroMetrics = [
-  { label: "DS Last Mile", value: "+6,4 pp", hint: "torre de controle" },
-  { label: "SLA de PNR", value: "-42%", hint: "tempo médio de resolução" },
-  { label: "Bases monitoradas", value: "12", hint: "em tempo real" },
+  { value: "4", legend: "Bases Logísticas Monitoradas (Torre de Controle)" },
+  { value: "+6% OTD", legend: "Recuperação de Performance em 60 dias (Foco 99%)" },
+  { value: "-65%", legend: "Retrabalho Eliminado via Automação de Processos" },
 ];
 
+// ---------------------------------------------------------------------------
+// Timeline — cada etapa mantém o vocabulário exclusivo da respectiva empresa
+// (regra de isolamento de contexto: Last Mile/B2C na Mercado Livre/Kangu,
+// Transporte B2B/OTIF na Global Hospitalar).
+// ---------------------------------------------------------------------------
 export const timelineData = [
   {
     id: 1,
     period: "2022 — 2023",
-    label: "Fundamentos B2B",
-    subtitle: "Suprimentos, Estoque & Compras",
+    company: "Isab",
+    title: "Fundamentos B2B",
     description:
-      "Base sólida em operações B2B: gestão de suprimentos, controle de estoque e processos de compras em ambiente industrial, com primeiro contato com sistemas de gestão (SAP).",
-    tags: ["Suprimentos", "Gestão de Estoque", "Compras", "SAP"],
+      "Contratado para Suprimentos B2B. Entrega da rotina completa de compras + implementação paralela de Kanban de estoque integrado à produção.",
+    tags: ["Suprimentos", "Compras B2B", "Kanban de Estoque", "Produção"],
   },
   {
     id: 2,
     period: "2024 — 2025",
-    label: "Automação & Processos",
-    subtitle: "APIs, Power Query, SSOT & Ágil",
+    company: "Global Hospitalar",
+    title: "Automação B2B",
     description:
-      "Integração de sistemas via APIs, tratamento de dados com Power Query, construção de fonte única da verdade (SSOT) e adoção de metodologias ágeis para eliminar retrabalho.",
-    tags: ["APIs", "Power Query", "SSOT", "Scrum", "Kanban"],
+      "Contratado para Transporte B2B. Execução de romaneios/faturamento + entrega de projetos de automação via API REST (Portal do Cliente) e dashboards em Power Query (-65% de retrabalho).",
+    tags: ["Romaneio", "Faturamento", "API REST", "Portal do Cliente", "Power Query"],
   },
   {
     id: 3,
     period: "2026",
-    label: "Inteligência Operacional",
-    subtitle: "SQL, Torre de Controle & Governança",
+    company: "Mercado Livre",
+    title: "Inteligência Operacional",
     description:
-      "Atuação em larga escala: consultas SQL, torres de controle para Last Mile e governança de dados como pilar central da tomada de decisão.",
-    tags: ["SQL", "Torre de Controle", "Last Mile", "Governança de Dados"],
+      "Atuação em Torre de Controle Last Mile. Execução logística + desenvolvimento de Extensão SSOT dedicada (JavaScript) para automação de rotas e gestão inteligente de incidentes de entrega (PNR).",
+    tags: ["Torre de Controle", "Last Mile", "SSOT", "JavaScript", "PNR"],
   },
 ];
 
+// ---------------------------------------------------------------------------
+// Showroom de Projetos
+// ---------------------------------------------------------------------------
 export const projects = [
   {
-    id: "torre-controle",
+    id: "torre-controle-kangu",
     number: "01",
-    type: "control-tower",
-    title: "Dashboard de Torre de Controle",
-    subtitle: "Monitoramento em tempo real · Last Mile",
+    type: "control-tower-ext",
+    title: "Extensão de Torre de Controle Kangu",
+    subtitle: "Last Mile · Mercado Livre / Kangu",
     description:
-      "Painel de comando para bases logísticas com KPIs de Delivery Success e atribuição inteligente de motoristas.",
-    tags: ["SQL", "APIs", "Dashboards", "Last Mile"],
-    accent: "gold",
+      "Extensão de navegador que centraliza o monitoramento em tempo real das 4 bases Last Mile, KPIs de Delivery Success e atribuição de motoristas.",
+    status: "Em Desenvolvimento",
+    tags: ["JavaScript", "APIs", "Dashboards", "Last Mile"],
+    accent: "amber",
+    links: {},
     tour: [
       {
         title: "A Dor Operacional",
-        text: "Bases logísticas operavam sem visibilidade centralizada. A atribuição de motoristas era manual e o Delivery Success (DS) só era conhecido no dia seguinte — decisões sempre reativas.",
+        text: "A ferramenta nativa não expõe o Delivery Success (DS) em tempo real por base nem cruza pendências de PNR (Paguei e Não Recebi) com a operação de rotas — a atribuição de motoristas ainda dependia de planilhas paralelas.",
       },
       {
         title: "A Solução Aplicada",
-        text: "Construí uma Torre de Controle que centraliza o status de todas as bases, automatiza a atribuição de motoristas por regra de prioridade e expõe KPIs de DS em tempo real via SQL e APIs.",
+        text: "Desenvolvi uma extensão de navegador (JavaScript) que roda na própria sessão operacional: centraliza SMG1, SMG8, SMG14 e SMG15 num único painel, calcula o DS ao vivo e simula a atribuição de motoristas em modo Dry-Run antes de qualquer escrita.",
       },
       {
         title: "O Impacto",
-        text: "Tempo de atribuição caiu de horas para minutos, o DS subiu de forma consistente e a operação passou a agir antes do problema virar atraso.",
+        text: "Visibilidade unificada das 4 bases, priorização mais rápida de incidentes de PNR e uma prévia segura (dry-run) antes de qualquer atribuição real de motorista.",
       },
     ],
   },
@@ -79,73 +90,80 @@ export const projects = [
     number: "02",
     type: "engine",
     title: "Motor de Gestão Operacional",
-    subtitle: "Regras de negócio & integração com ERP",
+    subtitle: "Gateway de regras de negócio · Python",
     description:
-      "Backend de regras que processa exceções e complementa lacunas que o ERP corporativo não cobre.",
-    tags: ["APIs", "Automação", "SQL", "Governança"],
+      "Motor/gateway que processa regras de negócio e logs para suprir lacunas que o ERP corporativo não cobre.",
+    tags: ["Python", "PostgreSQL", "SQLite", "APIs"],
     accent: "sky",
+    links: { github: "https://github.com/erickfsm/Sistemagestao" },
     tour: [
       {
         title: "A Dor Operacional",
-        text: "O ERP não cobria regras de negócio específicas da operação, exigindo controles paralelos em planilhas manuais — sujeitos a erro e sem rastreabilidade.",
+        text: "O ERP corporativo não cobria regras de negócio específicas da operação, exigindo controles paralelos em planilhas manuais — sujeitos a erro e sem rastreabilidade.",
       },
       {
         title: "A Solução Aplicada",
-        text: "Desenvolvi um motor de regras que processa a lógica de negócio faltante, valida exceções automaticamente e devolve dados consistentes para o ERP.",
+        text: "Desenvolvi um motor/gateway em Python, com persistência em PostgreSQL/SQLite, que processa a lógica de negócio faltante, valida exceções automaticamente e registra logs de cada execução.",
       },
       {
         title: "O Impacto",
-        text: "Retrabalho manual eliminado, regras de negócio padronizadas e confiabilidade nos dados que alimentam decisões operacionais diárias.",
+        text: "Retrabalho manual eliminado, regras de negócio padronizadas e rastreabilidade completa das exceções processadas fora do ERP.",
       },
     ],
   },
   {
-    id: "sla-pnr",
+    id: "auditoria-b2b",
     number: "03",
-    type: "spreadsheet",
-    title: "Rastreador de SLA (PNR)",
-    subtitle: "Planilha automatizada · Power Query",
+    type: "audit-b2b",
+    title: "Inteligência de Performance & Auditoria B2B",
+    subtitle: "Transporte B2B · Global Hospitalar",
     description:
-      "Painel de controle para casos de 'Paguei e Não Recebi', com priorização automática por risco de estouro de SLA.",
-    tags: ["Excel Avançado", "Power Query", "SLA", "Web"],
+      "Painel de auditoria de OTD/OTIF e gestão visual de devoluções para a operação de transporte corporativo.",
+    tags: ["Excel Avançado", "Power Query", "OTIF", "Kanban"],
     accent: "emerald",
+    links: {},
     tour: [
       {
         title: "A Dor Operacional",
-        text: "Casos de 'Paguei e Não Recebi' (PNR) se acumulavam sem controle de prazo, gerando estouro de SLA e insatisfação do cliente.",
+        text: "O OTD da operação de transporte B2B estava em 83%, sem visibilidade diária das causas de atraso, e as devoluções se acumulavam sem um fluxo visual de priorização.",
       },
       {
         title: "A Solução Aplicada",
-        text: "Planilha automatizada com Power Query trata os dados brutos, calcula o SLA em tempo real e prioriza os casos mais críticos por dias em aberto.",
+        text: "Construí um painel de auditoria com Excel Avançado e Power Query que acompanha a evolução do OTD rumo à meta projetada de 99% OTIF, além de um Kanban de devoluções priorizado por etapa.",
       },
       {
         title: "O Impacto",
-        text: "Redução expressiva no tempo médio de resolução de PNR e visibilidade total sobre os casos em risco de estouro de prazo.",
+        text: "OTD recuperado de 83% para 89% em 60 dias e fluxo de devoluções normalizado, com -65% de retrabalho na operação.",
       },
     ],
   },
   {
-    id: "ocorrencias-indenizacoes",
+    id: "apex-care",
     number: "04",
-    type: "audit",
-    title: "Controle de Ocorrências e Indenizações",
-    subtitle: "Auditoria de faturamento & sinistros",
+    type: "apex-care",
+    title: "Apex Care Integrated System",
+    subtitle: "Plataforma de agendamento · Estofados",
     description:
-      "Painel de auditoria que cruza ocorrências, valores de indenização e faturas para sinalizar divergências.",
-    tags: ["Excel Avançado", "Auditoria", "SQL", "Web"],
+      "Sistema completo de orçamento, agendamento e gestão para a Apex Care, especializada em tratamento técnico de estofados.",
+    tags: ["Supabase", "JavaScript", "PostgreSQL", "Web"],
     accent: "rose",
+    links: {
+      github: "https://github.com/erickfsm/apex-care-website",
+      live: "https://app.apexcare.com.br/",
+      prelaunch: "https://apexcare.com.br/vip",
+    },
     tour: [
       {
         title: "A Dor Operacional",
-        text: "Faturamento logístico e sinistros eram auditados manualmente, item a item, consumindo horas e mascarando divergências recorrentes.",
+        text: "Orçamentos e agendamentos eram tratados manualmente por WhatsApp e telefone, sem histórico de atendimentos nem visão consolidada da agenda dos técnicos em campo.",
       },
       {
         title: "A Solução Aplicada",
-        text: "Painel de auditoria que cruza ocorrências, valores de indenização e faturas automaticamente, sinalizando divergências fora do padrão.",
+        text: "Desenvolvi um sistema web completo (Supabase + JavaScript) com orçamento instantâneo em etapas, agendamento online, portal do cliente e dashboards dedicados para administradores e técnicos.",
       },
       {
         title: "O Impacto",
-        text: "Auditoria mais rápida, identificação de divergências recorrentes e recuperação de valores antes perdidos por falta de controle.",
+        text: "Processo de orçamento e agendamento totalmente digital, com histórico de atendimentos, gestão de promoções e ordens de serviço organizadas por técnico.",
       },
     ],
   },
@@ -155,31 +173,39 @@ export const projects = [
 // Sandbox seed data — usado pelos componentes de sandbox de cada projeto
 // ---------------------------------------------------------------------------
 
+// Projeto 01 — Extensão de Torre de Controle Kangu (Last Mile)
 export const controlTowerSeed = {
   kpis: {
-    deliverySuccess: 91.4,
-    activeRoutes: 128,
-    allocatedDrivers: 96,
-    criticalOccurrences: 7,
+    ds: 91.4,
+    insucessos: 47,
+    volumeRotas: 812,
+    taxaReversao: 34,
+  },
+  tactical: {
+    entregues: 6820,
+    pendentes: 340,
+    concluidas: 96,
+    sacas: 128,
   },
   bases: [
-    { id: 1, name: "Base Leste", region: "Leste", ds: 93.1, pending: 4, status: "Estável" },
-    { id: 2, name: "Base Oeste", region: "Oeste", ds: 88.7, pending: 11, status: "Atenção" },
-    { id: 3, name: "Base Sul", region: "Sul", ds: 95.2, pending: 2, status: "Estável" },
-    { id: 4, name: "Base Norte", region: "Norte", ds: 84.9, pending: 15, status: "Crítico" },
-    { id: 5, name: "Base Central", region: "Central", ds: 90.6, pending: 6, status: "Estável" },
+    { id: "SMG1", ds: 93.1, rotas: 210, andamento: 12, pacotes: 1720, entregues: 1602, pendencias: 84, falhas: 34, pph: 18.4 },
+    { id: "SMG8", ds: 88.7, rotas: 196, andamento: 18, pacotes: 1584, entregues: 1401, pendencias: 121, falhas: 62, pph: 15.9 },
+    { id: "SMG14", ds: 95.2, rotas: 224, andamento: 7, pacotes: 1890, entregues: 1798, pendencias: 52, falhas: 40, pph: 20.1 },
+    { id: "SMG15", ds: 84.9, rotas: 182, andamento: 21, pacotes: 1626, entregues: 1381, pendencias: 155, falhas: 90, pph: 14.2 },
   ],
-  drivers: [
-    { id: 1, name: "R. Almeida", base: "Base Leste", vehicle: "VUC", route: "LES-014", status: "Em rota" },
-    { id: 2, name: "M. Santos", base: "Base Oeste", vehicle: "Moto", route: "OES-002", status: "Carregando" },
-    { id: 3, name: "T. Nogueira", base: "Base Sul", vehicle: "3/4", route: "SUL-021", status: "Em rota" },
-    { id: 4, name: "C. Ribeiro", base: "Base Norte", vehicle: "VUC", route: "NOR-009", status: "Aguardando" },
-    { id: 5, name: "P. Duarte", base: "Base Central", vehicle: "Moto", route: "CEN-017", status: "Em rota" },
-    { id: 6, name: "L. Ferraz", base: "Base Leste", vehicle: "3/4", route: "LES-008", status: "Finalizado" },
+  roster: [
+    { serviceID: "RT-40231", rota: "SMG1-014", motorista: "R. Almeida", placa: "KNG1A23", tipo: "VUC", status: "MATCH" },
+    { serviceID: "RT-40255", rota: "SMG8-002", motorista: "M. Santos", placa: "KNG8B41", tipo: "Moto", status: "MATCH" },
+    { serviceID: "RT-40260", rota: "SMG14-021", motorista: "T. Nogueira", placa: "KNG4C09", tipo: "3/4", status: "MATCH" },
+    { serviceID: "RT-40271", rota: "SMG15-009", motorista: "—", placa: "—", tipo: "VUC", status: "SEM_MOTORISTA" },
+    { serviceID: "RT-40288", rota: "SMG1-008", motorista: "L. Ferraz", placa: "KNG1D77", tipo: "3/4", status: "ATRIBUIDO_ML" },
+    { serviceID: "RT-40299", rota: "SMG8-017", motorista: "C. Ribeiro", placa: "KNG8E12", tipo: "Moto", status: "MATCH" },
   ],
 };
 
+// Projeto 02 — Motor de Gestão Operacional
 export const engineSeed = {
+  stack: "Python · PostgreSQL / SQLite",
   metrics: {
     processedToday: 4820,
     pendingQueue: 63,
@@ -200,38 +226,64 @@ export const engineSeed = {
   ],
 };
 
-export const slaTrackerSeed = {
-  breakdown: [
-    { status: "Novo", count: 18 },
-    { status: "Em análise", count: 34 },
-    { status: "Reembolsado", count: 52 },
-    { status: "Vencido", count: 9 },
+// Projeto 03 — Inteligência de Performance & Auditoria B2B (Global Hospitalar)
+export const auditB2BSeed = {
+  otdSeries: [
+    { mes: "Mai", value: 83 },
+    { mes: "Jun", value: 84 },
+    { mes: "Jul", value: 86 },
+    { mes: "Ago", value: 89 },
   ],
-  rows: [
-    { id: "PNR-1042", cliente: "Distrib. Vitamed", valor: "R$ 1.240,00", diasAberto: 2, status: "Novo" },
-    { id: "PNR-1039", cliente: "FarmaCenter LTDA", valor: "R$ 640,50", diasAberto: 5, status: "Em análise" },
-    { id: "PNR-1035", cliente: "Rede Saúde Plus", valor: "R$ 2.310,00", diasAberto: 9, status: "Vencido" },
-    { id: "PNR-1031", cliente: "Clínica Bem Estar", valor: "R$ 380,00", diasAberto: 1, status: "Novo" },
-    { id: "PNR-1027", cliente: "Hospital São Marcos", valor: "R$ 5.120,00", diasAberto: 4, status: "Em análise" },
-    { id: "PNR-1022", cliente: "Drogal Distribuidora", valor: "R$ 910,00", diasAberto: 12, status: "Vencido" },
-    { id: "PNR-1018", cliente: "MedSupply Comércio", valor: "R$ 1.780,00", diasAberto: 3, status: "Reembolsado" },
+  otdTarget: 99,
+  otdTargetLabel: "Meta Projetada · 99% OTIF",
+  kanban: [
+    {
+      id: "novo",
+      title: "Novo",
+      cards: [
+        { id: "DEV-812", cliente: "Rede Saúde Plus", motivo: "Avaria no transporte", dias: 1 },
+        { id: "DEV-809", cliente: "Clínica Bem Estar", motivo: "Divergência de pedido", dias: 2 },
+      ],
+    },
+    {
+      id: "analise",
+      title: "Em Análise",
+      cards: [
+        { id: "DEV-798", cliente: "Hospital São Marcos", motivo: "Produto fora da validade", dias: 4 },
+        { id: "DEV-791", cliente: "FarmaCenter LTDA", motivo: "Erro de separação", dias: 5 },
+        { id: "DEV-788", cliente: "Drogal Distribuidora", motivo: "Avaria no transporte", dias: 6 },
+      ],
+    },
+    {
+      id: "transportadora",
+      title: "Aguardando Transportadora",
+      cards: [{ id: "DEV-775", cliente: "MedSupply Comércio", motivo: "Coleta pendente", dias: 8 }],
+    },
+    {
+      id: "concluido",
+      title: "Concluído",
+      cards: [
+        { id: "DEV-760", cliente: "Distrib. Vitamed", motivo: "Estorno confirmado", dias: 12 },
+        { id: "DEV-754", cliente: "Rede Saúde Plus", motivo: "Troca realizada", dias: 14 },
+      ],
+    },
   ],
 };
 
-export const auditSeed = {
-  breakdown: [
-    { motivo: "Avaria em transporte", valor: 18400 },
-    { motivo: "Extravio", valor: 9200 },
-    { motivo: "Cobrança indevida de frete", valor: 6100 },
-    { motivo: "Divergência de peso/cubagem", valor: 4300 },
+// Projeto 04 — Apex Care Integrated System
+export const apexCareSeed = {
+  nav: ["Dashboard", "Orçamentos", "Agendamentos", "Técnicos", "Clientes"],
+  stats: [
+    { label: "Orçamentos no Mês", value: 128 },
+    { label: "Agendamentos Confirmados", value: 96 },
+    { label: "Técnicos Ativos", value: 7 },
+    { label: "Taxa de Conversão", value: "42%" },
   ],
-  rows: [
-    { id: "OC-3391", tipo: "Avaria em transporte", transportadora: "RápidoLog", valor: "R$ 3.200,00", status: "Pendente" },
-    { id: "OC-3388", tipo: "Extravio", transportadora: "TransMinas", valor: "R$ 1.850,00", status: "Auditado" },
-    { id: "OC-3382", tipo: "Cobrança indevida de frete", transportadora: "VoeCargo", valor: "R$ 940,00", status: "Divergência" },
-    { id: "OC-3379", tipo: "Divergência de peso/cubagem", transportadora: "RápidoLog", valor: "R$ 610,00", status: "Auditado" },
-    { id: "OC-3375", tipo: "Avaria em transporte", transportadora: "SulExpress", valor: "R$ 2.430,00", status: "Pendente" },
-    { id: "OC-3370", tipo: "Extravio", transportadora: "VoeCargo", valor: "R$ 1.120,00", status: "Divergência" },
+  agenda: [
+    { id: "OS-2291", cliente: "Fernanda Rocha", servico: "Higienização de sofá 3L", tecnico: "Diego M.", data: "12/07 · 09:30", status: "Confirmado" },
+    { id: "OS-2288", cliente: "Marcos Vinícius", servico: "Impermeabilização", tecnico: "Ana P.", data: "12/07 · 11:00", status: "Confirmado" },
+    { id: "OS-2284", cliente: "Studio Lótus", servico: "Higienização de cadeiras (12un)", tecnico: "Diego M.", data: "12/07 · 14:00", status: "Em rota" },
+    { id: "OS-2279", cliente: "Renata Ferreira", servico: "Higienização de colchão", tecnico: "Bruno S.", data: "13/07 · 08:30", status: "Aguardando" },
   ],
 };
 

@@ -38,14 +38,14 @@ export default function Hero() {
           </a>
         </div>
 
-        <div className="mx-auto mt-14 grid max-w-2xl grid-cols-3 gap-4 border-t border-line pt-8">
+        <div className="mx-auto mt-14 grid max-w-3xl grid-cols-1 gap-6 border-t border-line pt-8 sm:grid-cols-3">
           {heroMetrics.map((m) => (
-            <div key={m.label}>
-              <div className="font-mono text-xl font-semibold text-gold md:text-2xl">
+            <div key={m.legend}>
+              <div className="font-mono text-2xl font-semibold text-gold md:text-3xl">
                 {m.value}
               </div>
-              <div className="mt-1 text-[11px] uppercase tracking-wider text-mist-dim">
-                {m.label}
+              <div className="mx-auto mt-1.5 max-w-[15rem] text-[11px] uppercase leading-relaxed tracking-wider text-mist-dim">
+                {m.legend}
               </div>
             </div>
           ))}

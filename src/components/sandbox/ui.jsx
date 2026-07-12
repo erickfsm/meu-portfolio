@@ -29,6 +29,7 @@ const statusColors = {
   Ativa: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20",
   Auditado: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20",
   Reembolsado: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20",
+  Confirmado: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20",
   "Em rota": "text-sky-400 bg-sky-400/10 border-sky-400/20",
   Carregando: "text-sky-400 bg-sky-400/10 border-sky-400/20",
   Novo: "text-sky-400 bg-sky-400/10 border-sky-400/20",
