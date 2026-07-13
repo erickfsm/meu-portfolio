@@ -65,23 +65,23 @@ export const projects = [
     title: "Extensão de Torre de Controle Kangu",
     subtitle: "Last Mile · Mercado Livre / Kangu",
     description:
-      "Extensão de navegador que centraliza o monitoramento em tempo real das 4 bases Last Mile, KPIs de Delivery Success e atribuição de motoristas.",
+      "Extensão Chrome (Manifest V3) que consolida Dashboard, Insucessos, PNR e Distribuição das 4 bases Last Mile em uma única interface, rodando 100% na sessão do operador.",
     status: "Em Desenvolvimento",
     tags: ["JavaScript", "APIs", "Dashboards", "Last Mile"],
     accent: "amber",
     links: {},
     tour: [
       {
-        title: "A Dor Operacional",
-        text: "A ferramenta nativa não expõe o Delivery Success (DS) em tempo real por base nem cruza pendências de PNR (Paguei e Não Recebi) com a operação de rotas — a atribuição de motoristas ainda dependia de planilhas paralelas.",
+        title: "O Desafio",
+        text: "Consolidar a operação de 4 bases logísticas para 20 operadores sem criar gargalos de API ou exigir credenciais manuais compartilhadas.",
       },
       {
-        title: "A Solução Aplicada",
-        text: "Desenvolvi uma extensão de navegador (JavaScript) que roda na própria sessão operacional: centraliza SMG1, SMG8, SMG14 e SMG15 num único painel, calcula o DS ao vivo e simula a atribuição de motoristas em modo Dry-Run antes de qualquer escrita.",
+        title: "A Arquitetura",
+        text: "Extensão Chrome (Manifest V3) com ETL 100% client-side, herdando a sessão logada do operador para acessar as APIs oficiais sem sobrecarregar o back-end.",
       },
       {
-        title: "O Impacto",
-        text: "Visibilidade unificada das 4 bases, priorização mais rápida de incidentes de PNR e uma prévia segura (dry-run) antes de qualquer atribuição real de motorista.",
+        title: "Módulos",
+        text: "Navegue pelas abas acima para simular a gestão de PNRs por fase, a auditoria de Insucessos e a Distribuição de rotas com validação de Dry-Run.",
       },
     ],
   },
@@ -174,32 +174,107 @@ export const projects = [
 // ---------------------------------------------------------------------------
 
 // Projeto 01 — Extensão de Torre de Controle Kangu (Last Mile)
+// Estrutura espelha a documentação técnica real do projeto (4 bases, KPIs,
+// Insucessos, PNR por fase e Distribuição/Dry-Run).
 export const controlTowerSeed = {
   kpis: {
-    ds: 91.4,
-    insucessos: 47,
-    volumeRotas: 812,
-    taxaReversao: 34,
+    ds: 92.68,
+    pacotesTotais: 11271,
+    rotasTotais: 122,
+    insucessosPendentes: 617,
   },
-  tactical: {
-    entregues: 6820,
-    pendentes: 340,
-    concluidas: 96,
-    sacas: 128,
-  },
-  bases: [
-    { id: "SMG1", ds: 93.1, rotas: 210, andamento: 12, pacotes: 1720, entregues: 1602, pendencias: 84, falhas: 34, pph: 18.4 },
-    { id: "SMG8", ds: 88.7, rotas: 196, andamento: 18, pacotes: 1584, entregues: 1401, pendencias: 121, falhas: 62, pph: 15.9 },
-    { id: "SMG14", ds: 95.2, rotas: 224, andamento: 7, pacotes: 1890, entregues: 1798, pendencias: 52, falhas: 40, pph: 20.1 },
-    { id: "SMG15", ds: 84.9, rotas: 182, andamento: 21, pacotes: 1626, entregues: 1381, pendencias: 155, falhas: 90, pph: 14.2 },
+  dsTrend: [
+    { hora: "07h", ds: 88.2 },
+    { hora: "08h", ds: 89.4 },
+    { hora: "09h", ds: 90.1 },
+    { hora: "10h", ds: 90.8 },
+    { hora: "11h", ds: 91.5 },
+    { hora: "12h", ds: 91.9 },
+    { hora: "13h", ds: 92.3 },
+    { hora: "14h", ds: 92.68 },
   ],
-  roster: [
-    { serviceID: "RT-40231", rota: "SMG1-014", motorista: "R. Almeida", placa: "KNG1A23", tipo: "VUC", status: "MATCH" },
-    { serviceID: "RT-40255", rota: "SMG8-002", motorista: "M. Santos", placa: "KNG8B41", tipo: "Moto", status: "MATCH" },
-    { serviceID: "RT-40260", rota: "SMG14-021", motorista: "T. Nogueira", placa: "KNG4C09", tipo: "3/4", status: "MATCH" },
-    { serviceID: "RT-40271", rota: "SMG15-009", motorista: "—", placa: "—", tipo: "VUC", status: "SEM_MOTORISTA" },
-    { serviceID: "RT-40288", rota: "SMG1-008", motorista: "L. Ferraz", placa: "KNG1D77", tipo: "3/4", status: "ATRIBUIDO_ML" },
-    { serviceID: "RT-40299", rota: "SMG8-017", motorista: "C. Ribeiro", placa: "KNG8E12", tipo: "Moto", status: "MATCH" },
+  bases: [
+    { id: "SMG1", ds: 90.26, falhas: 312, pendentes: 967, pph: 22.7 },
+    { id: "SMG8", ds: 95.81, falhas: 91, pendentes: 551, pph: 20.0 },
+    { id: "SMG14", ds: 92.58, falhas: 59, pendentes: 155, pph: 19.4 },
+    { id: "SMG15", ds: 93.14, falhas: 155, pendentes: 1170, pph: 24.0 },
+  ],
+  topOfensores: [
+    { rota: "SMG1_AM1", base: "SMG1", falhas: 18 },
+    { rota: "SMG15_PM1", base: "SMG15", falhas: 15 },
+    { rota: "SMG1_PM1", base: "SMG1", falhas: 12 },
+    { rota: "SMG8_AM1", base: "SMG8", falhas: 9 },
+    { rota: "SMG14_AM1", base: "SMG14", falhas: 6 },
+  ],
+  topPendencias: [
+    { rota: "SMG15_AM1", base: "SMG15", pendentes: 210 },
+    { rota: "SMG1_PM1", base: "SMG1", pendentes: 184 },
+    { rota: "SMG8_AM1", base: "SMG8", pendentes: 140 },
+    { rota: "SMG15_PM1", base: "SMG15", pendentes: 128 },
+    { rota: "SMG14_PM1", base: "SMG14", pendentes: 95 },
+  ],
+
+  insucessos: [
+    { id: "INS-101", rota: "SMG1_AM1", base: "SMG1", cliente: "João Silva", motivo: "Endereço não localizado", status: "A Tratar", operador: "", observacao: "" },
+    { id: "INS-102", rota: "SMG8_PM1", base: "SMG8", cliente: "Maria Souza", motivo: "Cliente ausente", status: "Em Tratativa", operador: "Erick M.", observacao: "Tentando contato via WhatsApp" },
+    { id: "INS-103", rota: "SMG14_AM1", base: "SMG14", cliente: "Carlos Dias", motivo: "Recusado", status: "Resolvido", operador: "Operador 2", observacao: "Baixa confirmada" },
+    { id: "INS-104", rota: "SMG15_PM1", base: "SMG15", cliente: "Beatriz Nunes", motivo: "Área de risco", status: "A Tratar", operador: "", observacao: "" },
+    { id: "INS-105", rota: "SMG1_PM1", base: "SMG1", cliente: "Rafael Torres", motivo: "Endereço não localizado", status: "Em Tratativa", operador: "Operador 3", observacao: "Aguardando retorno do cliente" },
+    { id: "INS-106", rota: "SMG8_AM1", base: "SMG8", cliente: "Patrícia Lopes", motivo: "Avaria no pacote", status: "Revertido", operador: "Erick M.", observacao: "Reagendado para amanhã" },
+  ],
+
+  // Fases reais do case-center: NEW::WAITING_RECEIPT=A Tratar · NEW::TO_BILL=Penalidade
+  // CLOSED::NOT_BILLED=Saving · CLOSED::BILLED=Desconto
+  pnrs: [
+    { id: "PNR-991", fase: "A Tratar", cliente: "Ana Costa", produto: "Fone de ouvido Bluetooth", slaRestante: "01h 15m", risco: "Alto", contato: "Pendente" },
+    { id: "PNR-992", fase: "Penalidade", cliente: "Pedro Lima", produto: "Liquidificador 3L", slaRestante: "Estourado", risco: "Crítico", contato: "Sem Sucesso" },
+    { id: "PNR-993", fase: "Saving", cliente: "Lucas Alves", produto: "Tênis de corrida", slaRestante: "Resolvido", risco: "Baixo", contato: "Acareação Aceita" },
+    { id: "PNR-994", fase: "Desconto", cliente: "Julia Mendes", produto: "Cadeira gamer", slaRestante: "Faturado", risco: "Financeiro", contato: "N/A" },
+    { id: "PNR-995", fase: "A Tratar", cliente: "Marcos Vinícius", produto: "Smartwatch", slaRestante: "03h 40m", risco: "Médio", contato: "Pendente" },
+    { id: "PNR-996", fase: "Penalidade", cliente: "Fernanda Dias", produto: "Mochila executiva", slaRestante: "Estourado", risco: "Crítico", contato: "Sem Sucesso" },
+  ],
+
+  distribuicao: {
+    rotasAbertas: [
+      { id: "99285658", nome: "SMG1_AM1_ZONA_SUL", base: "SMG1", tipoExigido: "Kangoo", ciclo: "AM" },
+      { id: "99285659", nome: "SMG8_PM1_CENTRO", base: "SMG8", tipoExigido: "Fiorino", ciclo: "PM" },
+      { id: "99285660", nome: "SMG14_AM1_NORTE", base: "SMG14", tipoExigido: "Moto", ciclo: "AM" },
+      { id: "99285661", nome: "SMG15_PM1_ZONA_LESTE", base: "SMG15", tipoExigido: "Kangoo", ciclo: "PM" },
+      { id: "99285662", nome: "SMG1_PM1_ZONA_OESTE", base: "SMG1", tipoExigido: "Fiorino", ciclo: "PM" },
+    ],
+    motoristasDisponiveis: [
+      { id: "2906127", nome: "Eurides Carlos", placa: "ABC-1234", tipo: "Kangoo", status: "Livre" },
+      { id: "4071726", nome: "Fabricio Viana", placa: "XYZ-9876", tipo: "Fiorino", status: "Atribuído" },
+      { id: "3182933", nome: "Wellington Rocha", placa: "JJK-4455", tipo: "Moto", status: "Livre" },
+      { id: "5521840", nome: "Douglas Prado", placa: "QWE-7788", tipo: "Kangoo", status: "Livre" },
+    ],
+  },
+
+  carregamento: [
+    { rota: "SMG1_AM1_ZONA_SUL", base: "SMG1", cluster: "SMG1-C3", doca: "Doca 04", status: "Em rota", tempoAduana: "12min" },
+    { rota: "SMG8_PM1_CENTRO", base: "SMG8", cluster: "SMG8-C1", doca: "Doca 02", status: "Subiu", tempoAduana: "08min" },
+    { rota: "SMG14_AM1_NORTE", base: "SMG14", cluster: "SMG14-C2", doca: "Doca 07", status: "Pendente", tempoAduana: "—" },
+    { rota: "SMG15_PM1_ZONA_LESTE", base: "SMG15", cluster: "SMG15-C4", doca: "Doca 01", status: "Finalizada", tempoAduana: "05min" },
+  ],
+
+  comercial: [
+    { cliente: "Loja Ferreira Calçados", pendencias: 3, horarioLimite: "16h00" },
+    { cliente: "Studio Aurora Móveis", pendencias: 1, horarioLimite: "17h30" },
+    { cliente: "TechBox Eletrônicos", pendencias: 5, horarioLimite: "15h00" },
+  ],
+
+  treinamentos: [
+    { motorista: "Eurides Carlos", curso: "Direção Defensiva", status: "Concluído", aderencia: 100 },
+    { motorista: "Fabricio Viana", curso: "Uso do App de Rotas", status: "Pendente", aderencia: 40 },
+    { motorista: "Wellington Rocha", curso: "Direção Defensiva", status: "Vencido", aderencia: 0 },
+    { motorista: "Douglas Prado", curso: "Atendimento ao Cliente", status: "Concluído", aderencia: 100 },
+  ],
+
+  scoreCard: [
+    { posicao: 1, motorista: "Eurides Carlos", ds: 97.2, insucessosResolvidos: 14 },
+    { posicao: 2, motorista: "Douglas Prado", ds: 95.8, insucessosResolvidos: 11 },
+    { posicao: 3, motorista: "Wellington Rocha", ds: 93.1, insucessosResolvidos: 9 },
+    { posicao: 4, motorista: "Fabricio Viana", ds: 89.4, insucessosResolvidos: 6 },
   ],
 };
 

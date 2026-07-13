@@ -1,6 +1,6 @@
 import { Loader2 } from "lucide-react";
 
-export function ActionButton({ children, onClick, loading, variant = "ghost", icon: Icon }) {
+export function ActionButton({ children, onClick, loading, disabled, variant = "ghost", icon: Icon }) {
   const base =
     "inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60";
   const variants = {
@@ -11,7 +11,7 @@ export function ActionButton({ children, onClick, loading, variant = "ghost", ic
   return (
     <button
       onClick={onClick}
-      disabled={loading}
+      disabled={loading || disabled}
       className={`${base} ${variants[variant]}`}
     >
       {loading ? (

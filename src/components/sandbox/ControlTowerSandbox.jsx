@@ -1,87 +1,32 @@
 import { useState } from "react";
-import { RefreshCw, PlayCircle, Zap, Radio } from "lucide-react";
+import { RefreshCw, Radio, LayoutGrid, Truck, GraduationCap, Trophy } from "lucide-react";
 import { controlTowerSeed, randomBetween } from "../../data/mockData";
 import { ActionButton } from "./ui";
+import DashboardView from "./torre/DashboardView";
+import InsucessosView from "./torre/InsucessosView";
+import PnrView from "./torre/PnrView";
+import DistribuicaoView from "./torre/DistribuicaoView";
+import SimpleTableView from "./torre/SimpleTableView";
 
 const SCOPES = ["GLOBAL", "SMG1", "SMG8", "SMG14", "SMG15"];
-const TABS = [
+const MODULES = [
   { id: "dashboard", label: "Dashboard" },
-  { id: "atribuicao", label: "Atribuição de Motoristas" },
+  { id: "distribuicao", label: "Distribuição" },
+  { id: "insucessos", label: "Insucessos" },
+  { id: "pnr", label: "PNR" },
+  { id: "carregamento", label: "Carregamento", icon: Truck },
+  { id: "comercial", label: "Comercial", icon: LayoutGrid },
+  { id: "treinamentos", label: "Treinamentos", icon: GraduationCap },
+  { id: "scorecard", label: "Score Card", icon: Trophy },
 ];
-
-const dsStatus = (ds) => (ds >= 92 ? "ok" : ds >= 87 ? "warn" : "bad");
-const dsClasses = {
-  ok: "bg-emerald-400/15 text-emerald-400",
-  warn: "bg-amber-400/15 text-amber-400",
-  bad: "bg-rose-400/15 text-rose-400",
-};
-
-const ROSTER_STATUS = {
-  MATCH: { label: "PRONTO P/ ATRIBUIR", cls: "bg-sky-400/15 text-sky-400" },
-  ATRIBUIDO: { label: "ATRIBUÍDO", cls: "bg-emerald-400/15 text-emerald-400" },
-  ATRIBUIDO_ML: { label: "ATRIB. (ML)", cls: "bg-white/10 text-slate-300" },
-  CONFLITO: { label: "CONFLITO", cls: "bg-amber-400/15 text-amber-400" },
-  SEM_MOTORISTA: { label: "SEM MOTORISTA", cls: "bg-rose-400/15 text-rose-400" },
-};
-
-function KpiBox({ label, value, border, hint }) {
-  return (
-    <div className="rounded-xl bg-[#1f2937] p-4" style={{ borderLeft: `4px solid ${border}` }}>
-      <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{label}</div>
-      <div className="mt-1 font-mono text-2xl font-extrabold text-white">{value}</div>
-      <div className="mt-1 text-[11px] text-slate-500">{hint}</div>
-    </div>
-  );
-}
-
-function TacticalCard({ label, value }) {
-  return (
-    <div className="rounded-lg border border-white/5 bg-black/20 p-3 text-center">
-      <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{label}</div>
-      <div className="mt-1 font-mono text-lg font-extrabold text-white">{value}</div>
-    </div>
-  );
-}
-
-function BaseCard({ base }) {
-  const status = dsStatus(base.ds);
-  return (
-    <div className="rounded-xl border border-white/5 bg-[#1f2937] p-4">
-      <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-2.5">
-        <span className="text-sm font-extrabold tracking-wide text-white">{base.id}</span>
-        <span className={`rounded-md px-2 py-0.5 font-mono text-xs font-bold ${dsClasses[status]}`}>
-          DS {base.ds}%
-        </span>
-      </div>
-      <div className="grid grid-cols-2 gap-2.5 text-xs">
-        <div>
-          <div className="text-[10px] uppercase text-slate-500">Rotas</div>
-          <div className="font-semibold text-slate-200">{base.rotas}</div>
-        </div>
-        <div>
-          <div className="text-[10px] uppercase text-slate-500">Pacotes</div>
-          <div className="font-semibold text-slate-200">{base.pacotes}</div>
-        </div>
-        <div>
-          <div className="text-[10px] uppercase text-slate-500">Pendências</div>
-          <div className="font-semibold text-slate-200">{base.pendencias}</div>
-        </div>
-        <div>
-          <div className="text-[10px] uppercase text-slate-500">Falhas</div>
-          <div className="font-semibold text-slate-200">{base.falhas}</div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function ControlTowerSandbox() {
   const [scope, setScope] = useState("GLOBAL");
-  const [tab, setTab] = useState("dashboard");
+  const [module, setModule] = useState("dashboard");
   const [kpis, setKpis] = useState(controlTowerSeed.kpis);
-  const [tactical, setTactical] = useState(controlTowerSeed.tactical);
   const [bases, setBases] = useState(controlTowerSeed.bases);
-  const [roster, setRoster] = useState(null);
+  const [insucessos, setInsucessos] = useState(controlTowerSeed.insucessos);
+  const [carregamento, setCarregamento] = useState(controlTowerSeed.carregamento);
   const [loadingKey, setLoadingKey] = useState(null);
 
   const run = (key, delayMs, updater) => {
@@ -95,34 +40,22 @@ export default function ControlTowerSandbox() {
   const handleRefresh = () =>
     run("refresh", 1000, () => {
       setKpis({
-        ds: randomBetween(85, 96, 1),
-        insucessos: randomBetween(20, 70),
-        volumeRotas: randomBetween(700, 900),
-        taxaReversao: randomBetween(20, 45),
+        ds: randomBetween(88, 96, 2),
+        pacotesTotais: randomBetween(9800, 12500),
+        rotasTotais: randomBetween(100, 140),
+        insucessosPendentes: randomBetween(400, 700),
       });
-      setBases((prev) => prev.map((b) => ({ ...b, ds: randomBetween(80, 97, 1), pendencias: randomBetween(30, 170) })));
+      setBases((prev) => prev.map((b) => ({ ...b, ds: randomBetween(84, 97, 2), pendentes: randomBetween(100, 1200) })));
     });
 
-  const handleDryRun = () =>
-    run("dryrun", 1100, () => {
-      setRoster(controlTowerSeed.roster.map((r) => ({ ...r })));
+  const handleRefreshCarregamento = () =>
+    run("carregamento", 900, () => {
+      const statuses = ["Pendente", "Subiu", "Em rota", "Finalizada"];
+      setCarregamento((prev) => prev.map((c) => ({ ...c, status: statuses[Math.floor(Math.random() * statuses.length)] })));
     });
 
-  const handleAtribuirTodos = () =>
-    run("atribuir", 1000, () => {
-      setRoster((prev) =>
-        prev.map((r) => {
-          if (r.status !== "MATCH") return r;
-          const roll = Math.random();
-          if (roll > 0.85) return { ...r, status: "CONFLITO" };
-          return { ...r, status: "ATRIBUIDO" };
-        })
-      );
-    });
-
-  const visibleBases = scope === "GLOBAL" ? bases : bases.filter((b) => b.id === scope);
-  const busy = loadingKey !== null;
-  const pendingMatches = roster ? roster.filter((r) => r.status === "MATCH").length : 0;
+  const visibleCarregamento = scope === "GLOBAL" ? carregamento : carregamento.filter((c) => c.base === scope);
+  const scopeLabel = (s) => (s === "GLOBAL" ? "VISÃO GLOBAL" : s);
 
   return (
     <div className="-mx-5 -my-6 space-y-5 bg-[#111827] p-5 md:-mx-8 md:-my-8 md:p-7">
@@ -140,7 +73,7 @@ export default function ControlTowerSandbox() {
                 scope === s ? "bg-[#ff6200] text-white" : "bg-black/20 text-slate-400 hover:text-white"
               }`}
             >
-              {s === "GLOBAL" ? "VISÃO GLOBAL" : s}
+              {scopeLabel(s)}
             </button>
           ))}
         </div>
@@ -149,147 +82,103 @@ export default function ControlTowerSandbox() {
         </ActionButton>
       </div>
 
-      <div className="flex gap-1 rounded-lg border border-white/5 bg-[#1f2937] p-1">
-        {TABS.map((t) => (
+      <div className="no-scrollbar flex gap-1 overflow-x-auto rounded-lg border border-white/5 bg-[#1f2937] p-1">
+        {MODULES.map((m) => (
           <button
-            key={t.id}
-            onClick={() => setTab(t.id)}
-            className={`rounded-md px-4 py-2 text-xs font-bold uppercase tracking-wide transition-colors duration-300 ${
-              tab === t.id ? "bg-[#ff6200] text-white" : "text-slate-400 hover:text-white"
+            key={m.id}
+            onClick={() => setModule(m.id)}
+            className={`flex-shrink-0 rounded-md px-4 py-2 text-xs font-bold uppercase tracking-wide transition-colors duration-300 ${
+              module === m.id ? "bg-[#ff6200] text-white" : "text-slate-400 hover:text-white"
             }`}
           >
-            {t.label}
+            {m.label}
           </button>
         ))}
       </div>
 
-      {tab === "dashboard" ? (
-        <div className="space-y-5">
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            <KpiBox label="Performance Global (DS)" value={`${kpis.ds}%`} border="#fff159" hint="Delivery Success" />
-            <KpiBox label="Insucessos (Qtd.)" value={kpis.insucessos} border="#ef4444" hint="Fails pendentes" />
-            <KpiBox label="Volume de Rotas" value={kpis.volumeRotas} border="#ff6200" hint="Capacidade operacional" />
-            <KpiBox label="Taxa de Reversão" value={`${kpis.taxaReversao}%`} border="#10b981" hint="Ações de logística" />
-          </div>
+      {module === "dashboard" && (
+        <DashboardView
+          kpis={kpis}
+          dsTrend={controlTowerSeed.dsTrend}
+          bases={bases}
+          topOfensores={controlTowerSeed.topOfensores}
+          topPendencias={controlTowerSeed.topPendencias}
+          scope={scope}
+          loading={loadingKey === "refresh"}
+        />
+      )}
 
-          <div className="grid grid-cols-2 gap-2.5 md:grid-cols-4">
-            <TacticalCard label="Pacotes Entregues" value={tactical.entregues.toLocaleString("pt-BR")} />
-            <TacticalCard label="Pacotes Pendentes" value={tactical.pendentes} />
-            <TacticalCard label="Rotas Concluídas" value={tactical.concluidas} />
-            <TacticalCard label="Cargas / Sacas DC" value={tactical.sacas} />
-          </div>
+      {module === "distribuicao" && (
+        <DistribuicaoView
+          rotasAbertas={controlTowerSeed.distribuicao.rotasAbertas}
+          motoristasDisponiveis={controlTowerSeed.distribuicao.motoristasDisponiveis}
+          scope={scope}
+        />
+      )}
 
-          <div className={`grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 ${loadingKey === "refresh" ? "animate-pulseSoft" : ""}`}>
-            {visibleBases.map((b) => (
-              <BaseCard key={b.id} base={b} />
-            ))}
-          </div>
+      {module === "insucessos" && (
+        <InsucessosView insucessos={insucessos} onChange={setInsucessos} scope={scope} />
+      )}
 
-          <div className="rounded-xl border border-white/5 bg-[#1f2937] p-4">
-            <div className="mb-3 text-xs font-bold uppercase tracking-wider text-slate-400">
-              Matriz de Nível de Serviço (SLA) por Estação
-            </div>
-            <div className="no-scrollbar overflow-x-auto">
-              <table className="w-full min-w-[640px] border-collapse text-center text-xs">
-                <thead>
-                  <tr className="text-slate-400">
-                    {["Estação", "DS", "Rotas", "Em Andamento", "Pacotes", "Entregues", "Pendências", "Falhas", "PPH Méd"].map((h) => (
-                      <th key={h} className="border border-white/10 bg-black/20 px-2 py-2 font-semibold uppercase">
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {visibleBases.map((b) => (
-                    <tr key={b.id} className="text-slate-200">
-                      <td className="border border-white/10 px-2 py-2 text-left font-bold">{b.id}</td>
-                      <td className={`border border-white/10 px-2 py-2 font-mono font-bold ${dsStatus(b.ds) === "ok" ? "text-emerald-400" : dsStatus(b.ds) === "warn" ? "text-amber-400" : "text-rose-400"}`}>
-                        {b.ds}%
-                      </td>
-                      <td className="border border-white/10 px-2 py-2">{b.rotas}</td>
-                      <td className="border border-white/10 px-2 py-2">{b.andamento}</td>
-                      <td className="border border-white/10 px-2 py-2">{b.pacotes}</td>
-                      <td className="border border-white/10 px-2 py-2">{b.entregues}</td>
-                      <td className="border border-white/10 px-2 py-2">{b.pendencias}</td>
-                      <td className="border border-white/10 px-2 py-2">{b.falhas}</td>
-                      <td className="border border-white/10 px-2 py-2">{b.pph}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          <div className="rounded-xl border border-white/5 bg-[#1f2937] p-5 text-center">
-            <h4 className="flex items-center justify-center gap-2 text-base font-bold text-[#ff9a4d]">
-              <Zap className="h-4 w-4" /> Atribuição de Motoristas
-            </h4>
-            <p className="mx-auto mt-1 max-w-xl text-xs text-slate-400">
-              Recomenda o motorista ideal por rota (carga, cidade, mix, histórico) e roda em{" "}
-              <strong className="text-slate-200">modo Dry-Run</strong> — nenhuma escrita real é feita até a confirmação.
-            </p>
-          </div>
+      {module === "pnr" && <PnrView pnrs={controlTowerSeed.pnrs} />}
 
-          <textarea
-            readOnly
-            rows={3}
-            placeholder="Cole os motoristas disponíveis — 1 por linha: Nome [TAB] Placa [TAB] Tipo"
-            className="w-full resize-none rounded-lg border border-white/10 bg-black/20 p-3 text-xs text-slate-300 placeholder:text-slate-600"
-          />
+      {module === "carregamento" && (
+        <SimpleTableView
+          title="Carregamento — Aduana / Expedição"
+          hint="Plano reconciliado com as rotas ao vivo pelo cluster."
+          columns={[
+            { key: "rota", label: "Rota" },
+            { key: "cluster", label: "Cluster" },
+            { key: "doca", label: "Doca" },
+            { key: "status", label: "Status" },
+            { key: "tempoAduana", label: "Tempo em Aduana" },
+          ]}
+          rows={visibleCarregamento}
+          loading={loadingKey === "carregamento"}
+          onRefresh={handleRefreshCarregamento}
+        />
+      )}
 
-          <div className="flex flex-wrap gap-2">
-            <ActionButton icon={PlayCircle} loading={loadingKey === "dryrun"} onClick={handleDryRun} variant="primary">
-              Prévia (Dry-Run)
-            </ActionButton>
-            <ActionButton
-              icon={Zap}
-              loading={loadingKey === "atribuir"}
-              onClick={handleAtribuirTodos}
-            >
-              {roster ? `Atribuir Todos (${pendingMatches})` : "Atribuir Todos"}
-            </ActionButton>
-          </div>
+      {module === "comercial" && (
+        <SimpleTableView
+          title="Comercial — Pendências"
+          hint="Clientes com pendências e horário-limite de fechamento."
+          columns={[
+            { key: "cliente", label: "Cliente" },
+            { key: "pendencias", label: "Pendências" },
+            { key: "horarioLimite", label: "Horário-Limite" },
+          ]}
+          rows={controlTowerSeed.comercial}
+        />
+      )}
 
-          {roster ? (
-            <div className="no-scrollbar overflow-x-auto rounded-xl border border-white/5">
-              <table className="w-full min-w-[600px] border-collapse text-left text-xs">
-                <thead>
-                  <tr className="bg-black/20 text-slate-400">
-                    {["Serviço", "Rota", "Motorista", "Placa", "Tipo", "Status"].map((h) => (
-                      <th key={h} className="px-3 py-2 font-semibold uppercase tracking-wider">
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className={busy ? "animate-pulseSoft" : ""}>
-                  {roster.map((r) => {
-                    const st = ROSTER_STATUS[r.status];
-                    return (
-                      <tr key={r.serviceID} className="border-t border-white/5 text-slate-200">
-                        <td className="px-3 py-2 font-mono text-slate-400">{r.serviceID}</td>
-                        <td className="px-3 py-2 font-mono">{r.rota}</td>
-                        <td className="px-3 py-2 font-medium">{r.motorista}</td>
-                        <td className="px-3 py-2 font-mono text-slate-400">{r.placa}</td>
-                        <td className="px-3 py-2">{r.tipo}</td>
-                        <td className="px-3 py-2">
-                          <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${st.cls}`}>{st.label}</span>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div className="rounded-xl border border-dashed border-white/10 bg-black/10 py-10 text-center text-xs text-slate-500">
-              Rode a prévia (Dry-Run) para ver as propostas de atribuição por rota.
-            </div>
-          )}
-        </div>
+      {module === "treinamentos" && (
+        <SimpleTableView
+          title="Treinamentos — Aderência por Motorista"
+          columns={[
+            { key: "motorista", label: "Motorista" },
+            { key: "curso", label: "Curso" },
+            { key: "status", label: "Status" },
+            { key: "aderencia", label: "Aderência" },
+          ]}
+          rows={controlTowerSeed.treinamentos}
+          renderCell={(key, row) => (key === "aderencia" ? `${row.aderencia}%` : undefined)}
+        />
+      )}
+
+      {module === "scorecard" && (
+        <SimpleTableView
+          title="Score Card — Ranking Semanal"
+          hint="Meritocracia a partir do desempenho de entrega."
+          columns={[
+            { key: "posicao", label: "#" },
+            { key: "motorista", label: "Motorista" },
+            { key: "ds", label: "DS" },
+            { key: "insucessosResolvidos", label: "Insucessos Resolvidos" },
+          ]}
+          rows={controlTowerSeed.scoreCard}
+          renderCell={(key, row) => (key === "ds" ? `${row.ds}%` : undefined)}
+        />
       )}
     </div>
   );
